@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block header2 %}
+  <h2>{% block title %}Borda Count{% endblock %}</h2>
+{% endblock %}
+
+{% block definition %}
+    <p>Each first-place vote counts as 5 points, each second-place vote counts as 4, etc, add up the number of points</p>
+{% endblock %}
