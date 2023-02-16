@@ -4,6 +4,25 @@
   <h2>{% block title %}Borda Count{% endblock %}</h2>
 {% endblock %}
 
-{% block definition %}
+{% block content %}
     <p>Each first-place vote counts as 5 points, each second-place vote counts as 4, etc, add up the number of points</p>
+    <p>Assign point values for each rank:</p>
+    <form method = post> 
+        <label for="rank1">Rank 1:</label>
+        <input id = "rank1">
+        <br>
+        <label for="rank2">Rank 2:</label>
+        <input id = "rank2">
+        <br>
+        <label for="rank3">Rank 3:</label>
+        <input id = "rank3">
+        <br>
+        <label for="rank4">Rank 4:</label>
+        <input id = "rank4">
+        <br>
+        <label for="rank5">Rank 5:</label>
+        <input id = "rank5">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
 {% endblock %}
