@@ -1,38 +1,11 @@
-from flask import Flask, render_template, abort, redirect, url_for, json, request, g
-import json
-import plotly
-from plotly import express as px
+from flask import Flask
+from flask import render_template, abort, redirect, url_for
+from flask import request, g
 import pandas as pd
 import sqlite3
 import voting_systems
 
 app = Flask(__name__)
-
-def get_voting_db():
-    try:
-        return g.voter_db
-    
-    except:
-        g.voter_db = voting_systems.make_table()
-        return g.voter_db
-
-def get_plurality_df():
-    pluralityList = voting_systems.plurality()
-    pluralityDF = pd.DataFrame(pluralityList, columns = ['candidate', 'number of votes'])
-    return pluralityDF
-
-def plurality_graph():
-    df = get_plurality_df()
-    fig = px.bar(data_frame = df, 
-                 x = 'candidate', 
-                 y = 'number of votes',
-                 hover_name = 'candidate',
-                 width = 700,
-                 height = 400)
-
-    fig.update_layout(title = "Plurality Candidate Votes", xaxis_title = 'Name of Candidate', yaxis_title = 'Number of Votes')
-
-    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 @app.route("/", methods = ["GET", "POST"])
 def render_main():
@@ -46,17 +19,16 @@ def render_main():
 @app.route("/plurality/", methods = ["GET", "POST"])
 def render_plurality():
     if request.method == "GET":
-        graphJSON = plurality_graph()
-        return render_template("plurality.html", graphJSON = graphJSON)
+        return render_template("plurality.html")
     else:
         url = request.form["system"]
         # results = voting_systems.plurality()
         return redirect(url_for(url))
 
-# def plural_df():
-#     pluralityList = voting_systems.plurality()
-#     pluralityDF = pd.DataFrame(pluralityList, columns = ['candidate', 'number of votes'])
-#     # return render_template('plurality.html',  tables=[pluralityDF.to_html(classes='data')], titles=pluralityDF.columns.values)
+def plural_df():
+    pluralityList = voting_systems.plurality()
+    pluralityDF = pd.DataFrame(pluralityList, columns = ['candidate', 'number of votes'])
+    # return render_template('plurality.html',  tables=[pluralityDF.to_html(classes='data')], titles=pluralityDF.columns.values)
 
 
 @app.route("/bordacount/", methods = ["GET", "POST"])
