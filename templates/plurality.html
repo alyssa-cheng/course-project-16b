@@ -16,8 +16,9 @@
   </script> -->
 
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script type="text/javascript">
-      var graphs = {{graphJSON|safe}};
+  <!-- <script type="text/javascript">
+      var graphs = {{  graphJSON | safe  }};
       Plotly.plot('chart',graphs,{});        
-  </script>
+  </script> -->
+  {{graphJSON|safe}}
 {% endblock %}

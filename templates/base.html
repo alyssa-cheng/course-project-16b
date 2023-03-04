@@ -6,6 +6,12 @@
 
 {% block explain %}
     <p>This website will be using Rank Choice Voting (RCV) data to explain different voting systems!</p>
+    <p>There are 2 fairness criteria that you would want from a system:</p>
+    <ul>
+        <li>Independence of Irrelevant Alternatives (IIA):</li>
+        <li>Pareto Efficiency (PE):</li>
+    </ul>
+    <p>The only voting system that satisfies these criteria is dictatorship</p>
 {% endblock %}
 
 {% block links %}
@@ -17,7 +23,7 @@
             <option value = 'render_rcv'>Rank Choice Voting (RCV)</option>
             <option value = 'render_toptwo'>Top-Two Run-Off</option>
         </select>
-        <input type="submit" value="Submit">
+        <input type="submit" name = "submit" value="Submit">
     </form>
 {% endblock %}
 
@@ -28,7 +34,4 @@
 {% endblock %}
 
 {% block javascript %}
-    <h1>{{header}}</h1>
-    <h6><a href="/">Return to index page</a></h6>
-    <div id="chart" class="chart"></div>
 {% endblock %}
