@@ -2,7 +2,7 @@
 
 <title> Know Your Voting Systems </title>
 <h1> Know Your Voting Systems </h1>
-<h3>(and why they are bad)</h3>
+<h2>(and why they are bad)</h2>
 
 <body>
     <p>
@@ -35,8 +35,10 @@
     </p>
 </body>
 
-<body>
-    <a href = "{{ url_for('render_start') }}" >
-        <button>NEXT</button>
-    </a>
-</body>
+<a href = "{{ url_for('render_main') }}" >
+    <button>BACK</button>
+</a>
+
+<a href = "{{ url_for('render_start') }}" >
+    <button>NEXT</button>
+</a>
