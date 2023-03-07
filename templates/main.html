@@ -1,12 +1,39 @@
-{% extends 'base.html' %}
+<!doctype html>
 
-{% block explain %}
-    <p>This website will be using Rank Choice Voting (RCV) data to explain different voting systems!</p>
-    <p>There are 2 fairness criteria that you would want from a system:</p>
+<title> Know Your Voting Systems </title>
+<h1> Know Your Voting Systems </h1>
+<h3>(and why they are bad)</h3>
+
+<body>
+    <p>
+        Politics: the best topic to bring up at the Thanksgiving dinner table. We all spend hours debating and debating on certain policies and why or why not they should get enacted. However, have you ever stopped to think the voting systems that we use to decide on and enact these policies? For example:
+    </p>
     <ul>
-        <li>Independence of Irrelevant Alternatives (IIA):</li>
-        <li>Pareto Efficiency (PE):</li>
+        <li>Why is your local government using the voting system that it is?</li>
+        <li>Are some voting systems more fair than others?</li>
+        <li>What makes a voting system fair in the first place?</li>
     </ul>
-    <p>The only voting system that satisfies these criteria is dictatorship</p>
-    
-{% endblock %}
+    <p>
+        These questions may initially seem unassuming–of course our voting systems are fair, it’s the people’s voice after all! However, as soon as we rigorously (meaning, mathematically) tackle these concepts and issues, we come to the following two startling conclusions.
+    </p>
+    <ol type="1">
+        <li>The only voting system that satisfies all of our intuitive notions of fairness is a dictatorship.</li>
+        <li>Different voting systems that may each seem fair can lead to vastly different outcomes that may especially benefit particular individuals or groups of people.</li>
+    </ol>
+    <p>
+        The goal of this website is to explain points 1 and 2, to allow for a better understanding of the voting systems that affect your everyday life. We offer the following resources:
+    </p>
+    <ul>
+        <li>A page where we explain what a ranked choice voting system is.</li>
+        <li>A page where we explain notions of fairness in voting and points 1 and 2.</li>
+        <li>A page allowing you the user to explore the results of various voting systems on the voter data from the 2020 democratic primary.</li>
+        <li>A page you the user to vote on which voting system is your favorite. We then display the winner of the vote (among all users) according to each voting system.</li>
+        <li>A page where we include a rigorous mathematical proof of point 1, for the especially interested user.</li>
+    </ul>
+</body>
+
+<body>
+    <a href = "{{ url_for('render_intro')  }}" >
+        <button>START</button>
+    </a>
+</body>
