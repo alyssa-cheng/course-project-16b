@@ -1,8 +1,10 @@
 <!doctype html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 
 <title> Know Your Voting Systems </title>
 <h1> Know Your Voting Systems </h1>
-<h3>(and why they are bad)</h3>
+<h2>(and why they are bad)</h2>
 
 <body>
     <p>
@@ -32,8 +34,6 @@
     </ul>
 </body>
 
-<body>
-    <a href = "{{ url_for('render_intro')  }}" >
-        <button>START</button>
-    </a>
-</body>
+<a href = "{{ url_for('render_intro')  }}" >
+    <button>START</button>
+</a>
