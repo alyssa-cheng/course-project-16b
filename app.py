@@ -125,6 +125,14 @@ def render_toptwo():
         url = request.form["system"]
         return redirect(url_for(url))
 
+@app.route("/dictatorship/", methods = ["GET", "POST"])
+def render_dictatorship():
+    if request.method == "GET":
+        return render_template("dictatorship.html")
+    else:
+        url = request.form["system"]
+        return redirect(url_for(url))
+
 @app.route('/choice/', methods=['POST','GET'])
 def render_choice():
     # if they submit a vote

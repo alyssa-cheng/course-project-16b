@@ -2,9 +2,17 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 
+
 <title> Know Your Voting Systems </title>
 <h1> Know Your Voting Systems </h1>
 <h2>(and why they are bad)</h2>
+
+<div class="sidenav">
+    <a href="{{ url_for('render_main')  }}">Main</a>
+    <a href="{{ url_for('render_intro')  }}">What Are Ranked Choice Voting Systems</a>
+    <a href="{{ url_for('render_start')  }}">Play With Voting</a>
+    <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
+</div>
 
 <body>
     <p>
