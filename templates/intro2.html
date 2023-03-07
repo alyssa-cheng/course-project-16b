@@ -1,0 +1,49 @@
+<!doctype html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+<title> Know Your Voting Systems </title>
+<h1> Know Your Voting Systems </h1>
+<h2>(and why they are bad)</h2>
+
+<div class="sidenav">
+    <a href="{{ url_for('render_main')  }}">Main</a>
+    <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a>
+    <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a>
+    <a href="{{ url_for('render_start')  }}">Play With Voting</a>
+    <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
+</div>
+
+<body>
+    <p>
+        Now that we know what ranked choice voting systems are, what makes a system fair? Here are three conditions that we would like to be true of a “fair” voting system:
+    </p>
+    <ul>
+        <li>Non-dictatorship: the voting system is not a dictatorship;</li>
+        <li>Independence of irrelevant alternatives (IIA): if we change an individual’s ranking without changing their preference between choice x and choice y, then the groups preference between choice x and choice y chould not change either;</li>
+        <li>Unanimity: if every single voter ranks choice x ahead of choice y, then the voting system should rank x ahead of choice y.</li>
+    </ul>
+    <p>
+        Non-dictatorship and unanimity are easy to understand, while IIA is a bit harder to parse. Here is an example.
+    </p>
+    <p>
+        Suppose Bob ranks choices x, y, z in the order 1st y, 2nd z, 3rd x and that the voting system as a whole produces the ranking 1st x, 2nd y, 3rd z. Note that Bob prefers y over x while the voting system as a whole prefers x over y. If we change Bob’s ranking to 1st z, 2nd y, 3rd x, meaning the individual still prefers y to x, then the voting system satisfies IIA if the voting system still prefers x over y. In other words, Bob’s relative preference of y over x didn’t change so the voting system’s relative preference of x over y shouldnt change either.
+    </p>
+    <p>
+        Now, we can finally understand point 1. Suppose we have a ranked choice voting system with more than one voter and more than two options to choose from. Then Arrow’s impossibility theorem proves that it is impossible for that ranked choice voting systems to always satisfy all three fairness condition. This means that the only ranked choice voting system that always satisfies IIA and unanimity (when there is more than one voter and there are more than two choices) is a dictatorship!
+    </p>
+    <p>
+        The Gibbard-Satterthwaite theorem extends Arrow’s impossibility theorem, as it shows that every ranked choice voting system that is a non-dictatorship (when there is more than one voter and there are more than two choices) is subject to tactical voting. This means that it may be better for an individual to not vote sincerely and instead lie about their preferences in order to make the voting system more likely result in their desired outcome. For example, suppose Bob likes choice x the best and choice y the second best. If choice x and choice y are equally liked by the voters, it may be better for bob to rank choice x as 1 and (tactically) rank choice y as their least favorite. This, way Bob can try to skew the performance of choice y to ensure that choice x wins.
+    </p>
+    <p>
+        The Gibbard-Satterthwaite theorem helps explains point 2. However, point 2 is best understood with examples. So, let’s see how the choice of voting system would affect the results of the 2020 Alaska democratic primary.  
+    </p>
+</body>
+
+<a href = "{{ url_for('render_intro') }}" >
+    <button>BACK</button>
+</a>
+
+<a href = "{{ url_for('render_start') }}" >
+    <button>NEXT</button>
+</a>
