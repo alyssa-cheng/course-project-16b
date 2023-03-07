@@ -72,7 +72,7 @@ def borda(db_name,point_dict={1:1,2:2,3:3,4:4,5:5}):
                 cmd = f"SELECT {point_dict[col]}*COUNT(rank{col}) FROM {db_name} WHERE (rank{col}=='{result}')"
                 cursor.execute(cmd)
                 count[result] = count.get(result,0) + cursor.fetchone()[0]
-    return [(i,j) for i,j in count.items()]
+    return sorted([(i,j) for i,j in count.items()],key = lambda x:-x[1])
 
 def preference_profiles():
     with get_voter_db() as conn:
@@ -131,7 +131,6 @@ def IRV(db_name):
                 tallies += [(person,vote_count)]
                 
             tallies = sorted(tallies,key=lambda x:-x[1])
-            print(tallies)
             last_place = tallies[-1][0]
             
             to_return = [last_place] + to_return
@@ -149,3 +148,21 @@ def TopTwo(db_name):
         return results
     else:
         return results.reverse()
+    
+def dictatorship(db_name,index=0):
+    with sqlite3.connect("voter_data.db") as conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute(f"SELECT rank1 FROM {db_name} LIMIT 1 OFFSET {index}")
+            return cursor.fetchall()[0][0]
+        except:
+            return -1
+    
+def add_vote(vote_list):
+    with sqlite3.connect("voter_data.db") as conn:
+        cursor = conn.cursor()
+        cmd = f"INSERT INTO ranking_votes (rank1,rank2,rank3,rank4,rank5) \
+        VALUES ('{vote_list[0]}','{vote_list[1]}','{vote_list[2]}','{vote_list[3]}','{vote_list[4]}')"
+        cursor.execute(cmd)
+    
+        conn.commit()

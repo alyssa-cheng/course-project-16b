@@ -1,0 +1,42 @@
+html {
+    font-family: "Trebuchet MS";
+    background: LightBlue;
+    padding: 1rem;
+    color: Black
+}
+
+body {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: Black;
+    font-family: "Trebuchet MS";
+    margin: 1rem 0;
+    text-align: center;
+}
+
+th {
+    color: Black;
+    font-family: "Trebuchet MS";
+    margin: 1rem 0;
+    text-align: left;
+}
+
+a {
+    color: CornflowerBlue;
+    text-decoration: underline;
+}
+
+hr {
+    border: none;
+    border-top: 3px solid Grey;
+}
+
+nav {
+    display: block
+    background: AntiqueWhite;
+    padding: 0 0.5rem;
+    border-radius: 25px;
+}

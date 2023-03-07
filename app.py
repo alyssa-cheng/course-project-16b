@@ -13,7 +13,7 @@ def get_voting_db():
 
 def get_plurality_df():
     pluralityList = voting_systems.plurality("votes")
-    pluralityDF = pd.DataFrame(pluralityList, columns = ['candidate', 'number of votes'])
+    pluralityDF = pd.DataFrame(pluralityList, columns = ['Candidate', 'Number of Votes'])
     return pluralityDF
 
 def plurality_graph():
@@ -31,7 +31,7 @@ def plurality_graph():
 
 def get_borda_df(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
     bordaList = voting_systems.borda("votes", point_dict)
-    bordaDF = pd.DataFrame(bordaList, columns = ['candidate', 'number of votes'])
+    bordaDF = pd.DataFrame(bordaList, columns = ['Candidate', 'Cumulative Points'])
     return bordaDF
 
 @app.route("/", methods = ["GET", "POST"])
@@ -56,12 +56,12 @@ def render_plurality():
 def render_borda():
     if request.method == "GET":
         bordaDF_og = get_borda_df()
-        bordaDF_og = bordaDF_og.to_html()
+        bordaDF_og = bordaDF_og.to_html(index=False)
         return render_template("bordacount.html", bordaDF_og = bordaDF_og)
     else:
         if request.form["submit"] == "Submit Rank Values":
             bordaDF_og = get_borda_df()
-            bordaDF_og = bordaDF_og.to_html()
+            bordaDF_og = bordaDF_og.to_html(index=False)
             
             rank1 = request.form['rank1']
             rank2 = request.form['rank2']
@@ -76,7 +76,7 @@ def render_borda():
                           5 : rank5}
             
             bordaDF_interact = get_borda_df(point_dict)
-            bordaDF_interact = bordaDF_interact.to_html()
+            bordaDF_interact = bordaDF_interact.to_html(index=False)
             return render_template("bordacount.html", bordaDF_interact = bordaDF_interact, bordaDF_og = bordaDF_og)
         elif request.form["submit"] == "Submit":
             try:
@@ -84,7 +84,7 @@ def render_borda():
                 return redirect(url_for(url))
             except:
                 bordaDF_og = get_borda_df()
-                bordaDF_og = bordaDF_og.to_html()
+                bordaDF_og = bordaDF_og.to_html(index=False)
                 return render_template("bordacount.html", bordaDF_og = bordaDF_og)
 
 @app.route("/rankchoice/", methods = ["GET", "POST"])
