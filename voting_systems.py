@@ -5,6 +5,9 @@ from flask import g
 
 def get_voter_db():
     try:
+        cmd = f"CREATE TABLE IF NOT EXISTS ranking_votes \
+        (rank1 TEXT, rank2 TEXT, rank3 TEXT, rank4 TEXT, rank5 TEXT)"
+        cursor.execute(cmd)
         return g.voter_db
     except:
         g.voter_db = sqlite3.connect('voter_data.sqlite')
@@ -22,6 +25,11 @@ def get_voter_db():
             """
             cursor.execute(cmd)
             g.voter_db.commit()
+
+        cmd = f"CREATE TABLE IF NOT EXISTS ranking_votes \
+        (rank1 TEXT, rank2 TEXT, rank3 TEXT, rank4 TEXT, rank5 TEXT)"
+        cursor.execute(cmd)
+
         return g.voter_db
         
 

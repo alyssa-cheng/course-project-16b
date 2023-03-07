@@ -1,0 +1,66 @@
+<!doctype html>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<h1>Rank Your Favorite Voting Sytems!</h1>
+
+{% block content %}
+<form method="post">
+  <label for="rank1">Rank 1: </label>
+  <select name="rank1" id="rank1">
+    <option value="Borda">Borda Count</option>
+    <option value="Dictatorship">Dictatorship</option>
+    <option value="Instant">Instant Run Off</option>
+    <option value="Plurality">Plurality</option>
+    <option value="Top2">Top Two Run Off</option>
+  </select>
+  <br><br>
+  <label for="rank2">Rank 2: </label>
+  <select name="rank2" id="rank2">
+    <option value="Borda">Borda Count</option>
+    <option value="Dictatorship">Dictatorship</option>
+    <option value="Instant">Instant Run Off</option>
+    <option value="Plurality">Plurality</option>
+    <option value="Top2">Top Two Run Off</option>
+  </select>
+  <br><br>
+  <label for="rank3">Rank 3: </label>
+  <select name="rank3" id="rank3">
+    <option value="Borda">Borda Count</option>
+    <option value="Dictatorship">Dictatorship</option>
+    <option value="Instant">Instant Run Off</option>
+    <option value="Plurality">Plurality</option>
+    <option value="Top2">Top Two Run Off</option>
+  </select>
+  <br><br>
+  <label for="rank4">Rank 4: </label>
+  <select name="rank4" id="rank4">
+    <option value="Borda">Borda Count</option>
+    <option value="Dictatorship">Dictatorship</option>
+    <option value="Instant">Instant Run Off</option>
+    <option value="Plurality">Plurality</option>
+    <option value="Top2">Top Two Run Off</option>
+  </select>
+  <br><br>
+  <label for="rank5">Rank 5: </label>
+  <select name="rank5" id="rank5">
+    <option value="Borda">Borda Count</option>
+    <option value="Dictatorship">Dictatorship</option>
+    <option value="Instant">Instant Run Off</option>
+    <option value="Plurality">Plurality</option>
+    <option value="Top2">Top Two Run Off</option>
+  </select>
+  <br><br>
+  <input type="submit" value="Click to submit your vote!">
+</form>
+
+{% if submitted %}
+  <br>
+  <p>Thanks for your vote!</p>
+  <p>{{vote}}</p>
+{% endif %}
+
+{% endblock %}
+
+<a href = "{{ url_for('render_start') }}" >
+    <button>BACK</button>
+</a>

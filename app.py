@@ -31,7 +31,7 @@ def get_plurality_df():
 
 def get_borda_df(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
     bordaList = voting_systems.borda("votes", point_dict)
-    bordaDF = pd.DataFrame(bordaList, columns = ['Candidate', 'Cumulative Points'])
+    bordaDF = pd.DataFrame(bordaList, columns = ['candidate', 'number of votes'])
     return bordaDF
 
 @app.route("/")
@@ -64,12 +64,12 @@ def render_plurality():
 def render_borda():
     if request.method == "GET":
         bordaDF_og = get_borda_df()
-        bordaDF_og = bordaDF_og.to_html(index=False)
+        bordaDF_og = bordaDF_og.to_html(index = False)
         return render_template("bordacount.html", bordaDF_og = bordaDF_og)
     else:
         if request.form["submit"] == "Submit Rank Values":
             bordaDF_og = get_borda_df()
-            bordaDF_og = bordaDF_og.to_html(index=False)
+            bordaDF_og = bordaDF_og.to_html(index = False)
             
             rank1 = request.form['rank1']
             rank2 = request.form['rank2']
@@ -84,7 +84,7 @@ def render_borda():
                           5 : rank5}
             
             bordaDF_interact = get_borda_df(point_dict)
-            bordaDF_interact = bordaDF_interact.to_html(index=False)
+            bordaDF_interact = bordaDF_interact.to_html()
             return render_template("bordacount.html", bordaDF_interact = bordaDF_interact, bordaDF_og = bordaDF_og)
         elif request.form["submit"] == "Submit":
             try:
@@ -92,7 +92,7 @@ def render_borda():
                 return redirect(url_for(url))
             except:
                 bordaDF_og = get_borda_df()
-                bordaDF_og = bordaDF_og.to_html(index=False)
+                bordaDF_og = bordaDF_og.to_html()
                 return render_template("bordacount.html", bordaDF_og = bordaDF_og)
 
 @app.route("/rankchoice/", methods = ["GET", "POST"])
@@ -110,3 +110,21 @@ def render_toptwo():
     else:
         url = request.form["system"]
         return redirect(url_for(url))
+
+@app.route('/choice/', methods=['POST','GET'])
+def render_choice():
+    # if they submit a vote
+    if request.method == 'POST':
+        # store the vote in the database
+        rank1 = request.form['rank1'] 
+        rank2 = request.form['rank2']
+        rank3 = request.form['rank3'] 
+        rank4 = request.form['rank4']
+        rank5 = request.form['rank5']
+        vote = [rank1, rank2, rank3, rank4, rank5]
+        voting_systems.add_vote(vote)
+        # display the thank you message
+        return render_template('choice.html', submitted=True, vote = vote)
+    # otherwise display the standard page
+    else:
+        return render_template('choice.html', submitted=False, vote = [])
