@@ -5,9 +5,6 @@ from flask import g
 
 def get_voter_db():
     try:
-        cmd = f"CREATE TABLE IF NOT EXISTS ranking_votes \
-        (rank1 TEXT, rank2 TEXT, rank3 TEXT, rank4 TEXT, rank5 TEXT)"
-        cursor.execute(cmd)
         return g.voter_db
     except:
         g.voter_db = sqlite3.connect('voter_data.sqlite')
@@ -29,6 +26,8 @@ def get_voter_db():
         cmd = f"CREATE TABLE IF NOT EXISTS ranking_votes \
         (rank1 TEXT, rank2 TEXT, rank3 TEXT, rank4 TEXT, rank5 TEXT)"
         cursor.execute(cmd)
+        g.voter_db.commit()
+        print("table created!")
 
         return g.voter_db
         
@@ -81,14 +80,6 @@ def borda(db_name,point_dict={1:1,2:2,3:3,4:4,5:5}):
                 cursor.execute(cmd)
                 count[result] = count.get(result,0) + cursor.fetchone()[0]
     return sorted([(i,j) for i,j in count.items()],key = lambda x:-x[1])
-
-def preference_profiles():
-    with get_voter_db() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT *,COUNT(*) FROM votes \
-        GROUP BY rank1,rank2,rank3,rank4,rank5 \
-        ORDER BY COUNT(*) DESC")
-    return cursor.fetchall()
 
 def IRV(db_name):
     #brute-force implementation
@@ -158,7 +149,7 @@ def TopTwo(db_name):
         return results.reverse()
     
 def dictatorship(db_name,index=0):
-    with sqlite3.connect("voter_data.db") as conn:
+    with get_voter_db() as conn:
         cursor = conn.cursor()
         try:
             cursor.execute(f"SELECT rank1 FROM {db_name} LIMIT 1 OFFSET {index}")
@@ -167,7 +158,7 @@ def dictatorship(db_name,index=0):
             return -1
     
 def add_vote(vote_list):
-    with sqlite3.connect("voter_data.db") as conn:
+    with get_voter_db() as conn:
         cursor = conn.cursor()
         cmd = f"INSERT INTO ranking_votes (rank1,rank2,rank3,rank4,rank5) \
         VALUES ('{vote_list[0]}','{vote_list[1]}','{vote_list[2]}','{vote_list[3]}','{vote_list[4]}')"

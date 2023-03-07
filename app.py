@@ -34,6 +34,16 @@ def get_borda_df(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
     bordaDF = pd.DataFrame(bordaList, columns = ['candidate', 'number of votes'])
     return bordaDF
 
+def get_irv_df():
+    irvList = voting_systems.IRV("votes")
+    irvDF = pd.DataFrame(irvList, columns = ['rankings'])
+    return irvDF
+
+def get_toptwo_df():
+    toptwoList = voting_systems.TopTwo("votes")
+    toptwoDF = pd.DataFrame(toptwoList, columns = ['candidate', 'number of votes'])
+    return toptwoDF
+
 @app.route("/")
 def render_main():
     return render_template("main.html")
@@ -98,7 +108,9 @@ def render_borda():
 @app.route("/rankchoice/", methods = ["GET", "POST"])
 def render_rcv():
     if request.method == "GET":
-        return render_template("rankchoice.html")
+        irvDF = get_irv_df()
+        irvDF = irvDF.to_html(index = False)
+        return render_template("rankchoice.html", irvDF = irvDF)
     else:
         url = request.form["system"]
         return redirect(url_for(url))
@@ -106,7 +118,9 @@ def render_rcv():
 @app.route("/toptwo/", methods = ["GET", "POST"])
 def render_toptwo():
     if request.method == "GET":
-        return render_template("toptwo.html")
+        toptwoDF = get_toptwo_df()
+        toptwoDF = toptwoDF.to_html(index = False)
+        return render_template("toptwo.html", toptwoDF = toptwoDF)
     else:
         url = request.form["system"]
         return redirect(url_for(url))

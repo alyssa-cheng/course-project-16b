@@ -6,4 +6,9 @@
 
 {% block content %}
     <p>Voters rank the candidates in a sequence of first, second, third, etc.</p>
+
+    {% if irvDF %}
+    <br>
+    {{  irvDF | safe }}
+    {% endif %}
 {% endblock %}

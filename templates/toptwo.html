@@ -6,4 +6,10 @@
 
 {% block content %}
     <p>Narrow in to the top-two in first-place votes, and then compare those two directly to determine a winner. Remove the winner and repeat to find second place, etc.</p>
+
+    {% if toptwoDF %}
+    <br>
+    {{  toptwoDF | safe }}
+    {% endif %}
+
 {% endblock %}
