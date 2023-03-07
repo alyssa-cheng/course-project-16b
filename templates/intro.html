@@ -1,0 +1,44 @@
+<!doctype html>
+
+<title> Know Your Voting Systems </title>
+<h1> Know Your Voting Systems </h1>
+<h2>(and why they are bad)</h2>
+
+<body>
+    <p>
+        What is a voting system in the first place? To be as general as possible for our purposes, we must discuss ranked choice voting systems. A ranked choice voting system consists of the following three parts:
+    </p>
+    <ul>
+        <li>A selection of options for the voters to choose from;</li>
+        <li>A way for the voters to rank their choices in an order of preference;</li>
+        <li>A systematic rule that decides a “societal” ranking of the choices from the individual voters’ rankings.</li>
+    </ul>
+    <p>
+        After the ranked choice vote is conducted, the choice in first place of the societal ranking is considered the winner of the vote. The majority of voting systems that you are familiar with are indeed ranked choice voting systems. Let’s consider a few examples.
+    </p>
+    <p>
+        Plurality voting, in practice, is typically conducted as each individual getting one vote. Then, the choice that gets the most votes is the one that wins the election. However, plurality voting can also be reinterpreted as a ranked choice voting system. Indeed, each voter ranks their choices in order of first, second, third, and so on. Then, the winner of the vote is the choice that received the most first place notes.
+    </p>
+    <p>
+        Let’s consider quite a drastically different voting system. Suppose that each voter again ranks their choices in order of first, second, and so on. Yet, in this system, the winner is simply the first place choice of one particular individual voter. In other words, there is only one individual that decides the winner of the election and everyone else has no say. We refer to this kind of ranked choice voting system, naturally, as a dictatorship. Hence, when we talk about a dictatorship from now on, we are talking about this interpretation as a ranked choice voting system.
+    </p>
+    <p>
+        As a final, less trivial, example, we explain the instant run off voting system. In this system, each voter ranks their choices in order of first, second, and so on. Then, the system performs the following steps until there is only one option left.
+    </p>
+    <ul>
+        <li>The system counts how many first place votes each choice (from the remaining choices possible) received.</li>
+        <li>The choice that received the lowest amount of first place votes is removed as an option from the set of all options.</li>
+        <li>All individuals who voted for the removed choice first have their rankings shifted so that their second place option becomes their first place option, their third place option becomes their second place option, and so on.</li>
+    </ul>
+    <p>
+        The final option left is deemed the winner of the election. 
+    </p>
+</body>
+
+<a href = "{{ url_for('render_main') }}" >
+    <button>BACK</button>
+</a>
+
+<a href = "{{ url_for('render_start') }}" >
+    <button>NEXT</button>
+</a>

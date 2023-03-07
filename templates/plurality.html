@@ -7,18 +7,8 @@
 {% block content %}
     <p>Just rank the candidates by the number of first-place ballots</p>
     <p>{{to_print}}</p>
-{% endblock %}
-
-{% block javascript %}
-  <!-- <script>
-    graph = JSON.parse({{ graphJSON | tojson }})
-    plotly.plot('chart', graphs, {});
-  </script> -->
-
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!-- <script type="text/javascript">
-      var graphs = {{  graphJSON | safe  }};
-      Plotly.plot('chart',graphs,{});        
-  </script> -->
-  {{graphJSON|safe}}
+    <br>
+    {% if pluralityDF %}
+      {{  pluralityDF | safe }}
+    {% endif %}
 {% endblock %}

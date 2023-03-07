@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block explain %}
+    <p>This website will be using Rank Choice Voting (RCV) data to explain different voting systems!</p>
+    <p>There are 2 fairness criteria that you would want from a system:</p>
+    <ul>
+        <li>Independence of Irrelevant Alternatives (IIA):</li>
+        <li>Pareto Efficiency (PE):</li>
+    </ul>
+    <p>The only voting system that satisfies these criteria is dictatorship</p>
+    
+{% endblock %}
+
+<body>
+    <a href = "{{ url_for('render_intro')  }}" >
+        <button>BACK</button>
+    </a>
+</body>
