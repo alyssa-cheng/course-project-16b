@@ -16,18 +16,18 @@ def get_plurality_df():
     pluralityDF = pd.DataFrame(pluralityList, columns = ['Candidate', 'Number of Votes'])
     return pluralityDF
 
-# def plurality_graph():
-#     df = get_plurality_df()
-#     fig = px.bar(data_frame = df, 
-#                  x = 'candidate', 
-#                  y = 'number of votes',
-#                  hover_name = 'candidate',
-#                  width = 700,
-#                  height = 400)
+def plurality_graph():
+    df = get_plurality_df()
+    fig = px.bar(data_frame = df, 
+                 x = 'candidate', 
+                 y = 'number of votes',
+                 hover_name = 'candidate',
+                 width = 700,
+                 height = 400)
 
-#     fig.update_layout(title = "Plurality Candidate Votes", xaxis_title = 'Name of Candidate', yaxis_title = 'Number of Votes')
+    fig.update_layout(title = "Plurality Candidate Votes", xaxis_title = 'Name of Candidate', yaxis_title = 'Number of Votes')
 
-#     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 def get_borda_df(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
     bordaList = voting_systems.borda("votes", point_dict)
@@ -65,7 +65,8 @@ def render_plurality():
     if request.method == "GET":
         pluralityDF = get_plurality_df()
         pluralityDF = pluralityDF.to_html(index = False)
-        return render_template("plurality.html", pluralityDF = pluralityDF)
+        graphJSON = plurality_graph()
+        return render_template("plurality.html", graphJSON = graphJSON, pluralityDF = pluralityDF)
     else:
         url = request.form["system"]
         return redirect(url_for(url))
