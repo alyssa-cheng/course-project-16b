@@ -51,6 +51,10 @@ def render_main():
 @app.route("/intro/")
 def render_intro():
     return render_template("intro.html")
+    
+@app.route("/intro2/")
+def render_intro2():
+    return render_template("intro2.html")
 
 @app.route("/start/", methods = ["GET", "POST"])
 def render_start():
