@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header2 %}
+  <h2>{% block title %}Plurality{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>Just rank the candidates by the number of first-place ballots</p>
+    <p>{{to_print}}</p>
+    <br>
+    {% if pluralityDF %}
+      {{  pluralityDF | safe }}
+    {% endif %}
+{% endblock %}

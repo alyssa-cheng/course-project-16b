@@ -29,6 +29,8 @@ def get_plurality_df():
 
 #     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
+# 
+
 def get_borda_df(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
     bordaList = voting_systems.borda("votes", point_dict)
     bordaDF = pd.DataFrame(bordaList, columns = ['candidate', 'number of votes'])
@@ -149,8 +151,10 @@ def render_choice():
         rank5 = request.form['rank5']
         vote = [rank1, rank2, rank3, rank4, rank5]
         voting_systems.add_vote(vote)
+        results = voting_systems.get_favorite_systems() #get results after submission
         # display the thank you message
-        return render_template('choice.html', submitted=True, vote = vote)
+        return render_template('choice.html', submitted=True, results=results)
     # otherwise display the standard page
     else:
-        return render_template('choice.html', submitted=False, vote = [])
+        results = voting_systems.get_favorite_systems()
+        return render_template('choice.html', submitted=False, results=results)
