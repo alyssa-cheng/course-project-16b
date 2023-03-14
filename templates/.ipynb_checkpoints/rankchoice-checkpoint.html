@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header2 %}
+  <h2>{% block title %}Rank Choice Voting{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>Voters rank the candidates in a sequence of first, second, third, etc.</p>
+
+    {% if irvDF %}
+    <br>
+    {{  irvDF | safe }}
+    {% endif %}
+{% endblock %}
