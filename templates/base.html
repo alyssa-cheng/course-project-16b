@@ -6,10 +6,10 @@
     <h1>Types of Voting Systems</h1>
     
     <div class="sidenav">
-        <a href="{{ url_for('render_main')  }}">Main</a>
-        <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a>
-        <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a>
-        <a href="{{ url_for('render_start')  }}">Play With Voting</a>
+        <a href="{{ url_for('render_main')  }}">Main</a> | 
+        <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a> | 
+        <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a> | 
+        <a href="{{ url_for('render_start')  }}">Play With Voting</a> | 
         <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
     </div>
 {% endblock %}
@@ -42,10 +42,6 @@
 {% endblock %}
 
 {% block content %}
-{% endblock %}
-
-{% block javascript %}
-    <h1>{{header}}</h1>
 {% endblock %}
 
 <a href = "{{ url_for('render_intro2') }}" >

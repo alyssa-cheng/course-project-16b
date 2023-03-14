@@ -22,17 +22,32 @@ def get_voter_db():
             """
             cursor.execute(cmd)
             g.voter_db.commit()
-        return g.voter_db
-        
 
-results = ['Tulsi Gabbard',
- 'Elizabeth Warren',
- 'Pete Buttigieg',
- 'Michael R. Bloomberg',
- 'Tom Steyer',
- 'Joseph R. Biden',
- 'Bernie Sanders',
- 'Amy Klobuchar']
+        cmd = f"CREATE TABLE IF NOT EXISTS ranking_votes \
+        (rank1 TEXT, rank2 TEXT, rank3 TEXT, rank4 TEXT, rank5 TEXT)"
+        cursor.execute(cmd)
+        g.voter_db.commit()
+        print("table created!")
+
+        return g.voter_db
+
+def get_results(db_name):
+    #hard-coded because we only need to worry about two tables
+    if db_name == "votes":
+        return ['Tulsi Gabbard',
+                'Elizabeth Warren',
+                'Pete Buttigieg',
+                'Michael R. Bloomberg',
+                'Tom Steyer',
+                'Joseph R. Biden',
+                'Bernie Sanders',
+                'Amy Klobuchar']
+    else:
+        return ['Borda Count',
+                'Top Two Runoff',
+                'Dictatorship',
+                'Instant Runoff',
+                'Plurality']
 
 def get_ranks(name,db_name):
     with get_voter_db() as conn:
@@ -62,32 +77,24 @@ def plurality(db_name):
         cursor.execute(cmd)
         return cursor.fetchall()
 
-def borda(db_name,point_dict={1:1,2:2,3:3,4:4,5:5}):
+def borda(db_name,point_dict={1:5,2:4,3:3,4:2,5:1}):
     #ask if there's a more efficient way to do this
     count = {}
     with get_voter_db() as conn:
         cursor = conn.cursor()
-        for result in results:
+        for result in get_results(db_name):
             for col in [1,2,3,4,5]:
                 cmd = f"SELECT {point_dict[col]}*COUNT(rank{col}) FROM {db_name} WHERE (rank{col}=='{result}')"
                 cursor.execute(cmd)
-                count[result] = count.get(result,0) + cursor.fetchone()[0]
+                count[result] = count.get(result,0) + cursor.fetchall()[0][0]
     return sorted([(i,j) for i,j in count.items()],key = lambda x:-x[1])
-
-def preference_profiles():
-    with get_voter_db() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT *,COUNT(*) FROM votes \
-        GROUP BY rank1,rank2,rank3,rank4,rank5 \
-        ORDER BY COUNT(*) DESC")
-    return cursor.fetchall()
 
 def IRV(db_name):
     #brute-force implementation
     #output is not necessarily a good ranking of preference, since worst candidates might
     #get no first place votes but more second-place votes
     #doesn't handle N/A votes well
-    can_win = list(results)
+    can_win = get_results(db_name)
     to_return = []
     with get_voter_db() as conn:
         count = 0
@@ -140,17 +147,21 @@ def IRV(db_name):
     
 def TopTwo(db_name):
     plural = plurality(db_name)
-    top_two = [plural[0][0],plural[1][0]]
-    count1 = np.sum([get_ranks(top_two[0],db_name)<get_ranks(top_two[1],db_name)])
-    count2 = np.sum([get_ranks(top_two[0],db_name)>get_ranks(top_two[1],db_name)])
-    results = list(zip(top_two,[count1,count2]))
-    if count1 > count2:
-        return results
-    else:
-        return results.reverse()
+    try:
+        top_two = [plural[0][0],plural[1][0]]
+        count1 = np.sum([get_ranks(top_two[0],db_name)<get_ranks(top_two[1],db_name)])
+        count2 = np.sum([get_ranks(top_two[0],db_name)>get_ranks(top_two[1],db_name)])
+        results = list(zip(top_two,[count1,count2]))
+        if count1 > count2:
+            return results
+        else:
+            results.reverse()
+            return results
+    except: #in the case that plurality() only returns one result
+        return plural
     
 def dictatorship(db_name,index=0):
-    with sqlite3.connect("voter_data.db") as conn:
+    with get_voter_db() as conn:
         cursor = conn.cursor()
         try:
             cursor.execute(f"SELECT rank1 FROM {db_name} LIMIT 1 OFFSET {index}")
@@ -159,10 +170,42 @@ def dictatorship(db_name,index=0):
             return -1
     
 def add_vote(vote_list):
-    with sqlite3.connect("voter_data.db") as conn:
+    with get_voter_db() as conn:
         cursor = conn.cursor()
         cmd = f"INSERT INTO ranking_votes (rank1,rank2,rank3,rank4,rank5) \
         VALUES ('{vote_list[0]}','{vote_list[1]}','{vote_list[2]}','{vote_list[3]}','{vote_list[4]}')"
         cursor.execute(cmd)
     
+        conn.commit()
+        
+def get_favorite_systems():
+    try:
+        view_rankings() #for debugging
+        return {"borda":borda("ranking_votes")[0][0],
+                "dictator":dictatorship("ranking_votes"),
+                "irv":IRV("ranking_votes")[0],
+                "plural":plurality("ranking_votes")[0][0],
+                "toptwo":TopTwo("ranking_votes")[0][0]}
+    except:
+        view_rankings() #for debugging
+        return {"borda":"",
+                "dictator":"",
+                "irv":"",
+                "plural":"",
+                "toptwo":""}
+    
+#methods for debugging    
+
+def view_rankings():
+    with get_voter_db() as conn:
+        cursor = conn.cursor()
+        cmd = "SELECT * FROM ranking_votes"
+        cursor.execute(cmd)
+        print(cursor.fetchall())
+        
+def clear_rankings():
+    with get_voter_db() as conn:
+        cursor = conn.cursor()
+        cmd = "DELETE FROM ranking_votes"
+        cursor.execute(cmd)
         conn.commit()

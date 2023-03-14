@@ -25,27 +25,14 @@ def plurality_graph():
                  width = 700,
                  height = 400)
 
-    fig.update_layout(title = "Plurality Candidate Votes", xaxis_title = 'Name of Candidate', yaxis_title = 'Number of Votes')
-    
-    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+#     fig.update_layout(title = "Plurality Candidate Votes", xaxis_title = 'Name of Candidate', yaxis_title = 'Number of Votes')
 
-def get_borda_df(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
+#     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+def get_borda_df(point_dict = {1:5, 2:4, 3:3, 4:2, 5:1}):
     bordaList = voting_systems.borda("votes", point_dict)
     bordaDF = pd.DataFrame(bordaList, columns = ['Candidate', 'Number of Votes'])
     return bordaDF
-
-def borda_graph(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
-    df = get_borda_df(point_dict)
-    fig = px.bar(data_frame = df, 
-                 x = 'Candidate', 
-                 y = 'Number of Votes',
-                 hover_name = 'Candidate',
-                 width = 700,
-                 height = 400)
-
-    fig.update_layout(title = "Borda Count Candidate Votes", xaxis_title = 'Name of Candidate', yaxis_title = 'Number of Votes')
-    
-    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 def get_irv_df():
     irvList = voting_systems.IRV("votes")
@@ -54,7 +41,7 @@ def get_irv_df():
 
 def get_toptwo_df():
     toptwoList = voting_systems.TopTwo("votes")
-    toptwoDF = pd.DataFrame(toptwoList, columns = ['candidate', 'number of votes'])
+    toptwoDF = pd.DataFrame(toptwoList, columns = ['Candidate', 'Number of Votes'])
     return toptwoDF
 
 @app.route("/")
@@ -99,7 +86,6 @@ def render_borda():
         if request.form["submit"] == "Submit Rank Values":
             bordaDF_og = get_borda_df()
             bordaDF_og = bordaDF_og.to_html(index = False)
-            borda_graph_og = borda_graph()
             
             rank1 = request.form['rank1']
             rank2 = request.form['rank2']
@@ -112,7 +98,7 @@ def render_borda():
                           3 : rank3,
                           4 : rank4,
                           5 : rank5}
-            
+
             bordaDF_interact = get_borda_df(point_dict)
             bordaDF_interact = bordaDF_interact.to_html()
 
@@ -175,8 +161,10 @@ def render_choice():
         rank5 = request.form['rank5']
         vote = [rank1, rank2, rank3, rank4, rank5]
         voting_systems.add_vote(vote)
+        results = voting_systems.get_favorite_systems() #get results after submission
         # display the thank you message
-        return render_template('choice.html', submitted=True, vote = vote)
+        return render_template('choice.html', submitted=True, results=results)
     # otherwise display the standard page
     else:
-        return render_template('choice.html', submitted=False, vote = [])
+        results = voting_systems.get_favorite_systems()
+        return render_template('choice.html', submitted=False, results=results)
