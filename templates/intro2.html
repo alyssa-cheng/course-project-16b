@@ -1,19 +1,8 @@
-<!doctype html>
+{% extends 'bigbase.html' %}
+
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-
-<title> Know Your Voting Systems </title>
-<h1> Know Your Voting Systems </h1>
-<h2>(and why they are bad)</h2>
-
-<div class="sidenav">
-    <a href="{{ url_for('render_main')  }}">Main</a> | 
-    <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a> | 
-    <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a> | 
-    <a href="{{ url_for('render_start')  }}">Play With Voting</a> | 
-    <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a> 
-</div>
-
+{% block text %}
 <body>
     <p>
         Now that we know what ranked choice voting systems are, what makes a system fair? Here are three conditions that we would like to be true of a “fair” voting system:
@@ -39,7 +28,9 @@
         The Gibbard-Satterthwaite theorem helps explains point 2. However, point 2 is best understood with examples. So, let’s see how the choice of voting system would affect the results of the 2020 Alaska democratic primary.  
     </p>
 </body>
+{% endblock %}
 
+{% block button %}
 <a href = "{{ url_for('render_intro') }}" >
     <button>BACK</button>
 </a>
@@ -47,3 +38,4 @@
 <a href = "{{ url_for('render_start') }}" >
     <button>NEXT</button>
 </a>
+{% endblock %}

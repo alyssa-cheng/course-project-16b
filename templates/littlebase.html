@@ -1,0 +1,40 @@
+{% extends 'bigbase.html' %}
+
+{% block text %}
+    <p>Choose your voting system below to see how they affect the Alaska 2020 Democractic Primary Results!</p>
+{% endblock %}
+
+{% block links %}
+    <form method = post>
+        <label for = 'system'>Choose a voting system:</label>
+        <select id = 'system' name = 'system'>
+            <option value = 'render_plurality'>Plurality</option>
+            <option value = 'render_borda'>Borda Count</option>
+            <option value = 'render_rcv'>Rank Choice Voting (RCV)</option>
+            <option value = 'render_toptwo'>Top-Two Run-Off</option>
+            <option value = 'render_dictatorship'>Dictatorship</option>
+        </select>
+        <input type="submit" name = "submit" value="Submit">
+    </form>
+{% endblock %}
+
+{% block header2 %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block plot %}
+{% endblock %}
+
+<br>
+
+{% block button %}
+<a href = "{{ url_for('render_intro2') }}" >
+    <button>BACK</button>
+</a>
+
+<a href = "{{ url_for('render_choice') }}" >
+    <button>NEXT</button>
+</a>
+{% endblock %}

@@ -1,0 +1,37 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<title>Different Types of Voting Systems</title>
+
+{% block header %}
+    <h1> Know Your Voting Systems </h1>
+    <h2>(and why they are bad)</h2>
+    
+    <div class="sidenav">
+        <a href="{{ url_for('render_main')  }}">Main</a> | 
+        <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a> | 
+        <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a> | 
+        <a href="{{ url_for('render_start')  }}">Play With Voting</a> | 
+        <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
+    </div>
+{% endblock %}
+
+{% block text %}
+{% endblock %}
+
+{% block links %}
+{% endblock %}
+
+{% block header2 %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block plot %}
+{% endblock %}
+
+{% block explain %}
+{% endblock %}
+
+{% block button %}
+{% endblock %}

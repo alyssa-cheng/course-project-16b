@@ -1,19 +1,9 @@
-<!doctype html>
+{% extends 'bigbase.html' %}
+
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 
-<title> Know Your Voting Systems </title>
-<h1> Know Your Voting Systems </h1>
-<h2>(and why they are bad)</h2>
-
-<div class="sidenav">
-    <a href="{{ url_for('render_main')  }}">Main</a> | 
-    <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a> | 
-    <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a> | 
-    <a href="{{ url_for('render_start')  }}">Play With Voting</a> | 
-    <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a> | 
-</div>
-
+{% block text %}
 <body>
     <p>
         What is a voting system in the first place? To be as general as possible for our purposes, we must discuss ranked choice voting systems. A ranked choice voting system consists of the following three parts:
@@ -44,7 +34,9 @@
         The final option left is deemed the winner of the election. 
     </p>
 </body>
+{% endblock %}
 
+{% block button %}
 <a href = "{{ url_for('render_main') }}" >
     <button>BACK</button>
 </a>
@@ -52,3 +44,4 @@
 <a href = "{{ url_for('render_intro2') }}" >
     <button>NEXT</button>
 </a>
+{% endblock %}

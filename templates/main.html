@@ -1,20 +1,8 @@
-<!doctype html>
+{% extends 'bigbase.html' %}
+
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-
-
-<title> Know Your Voting Systems </title>
-<h1> Know Your Voting Systems </h1>
-<h2>(and why they are bad)</h2>
-
-<div class="sidenav">
-    <a href="{{ url_for('render_main')  }}">Main</a> | 
-    <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a> | 
-    <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a> | 
-    <a href="{{ url_for('render_start')  }}">Play With Voting</a> | 
-    <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
-</div>
-
+{% block text %}
 <body>
     <p>
         Politics: the best topic to bring up at the Thanksgiving dinner table. We all spend hours debating and debating on certain policies and why or why not they should get enacted. However, have you ever stopped to think the voting systems that we use to decide on and enact these policies? For example:
@@ -25,7 +13,7 @@
         <li>What makes a voting system fair in the first place?</li>
     </ul>
     <p>
-        These questions may initially seem unassuming––of course our voting systems are fair, it’s the people’s voice after all! However, as soon as we rigorously (meaning, mathematically) tackle these concepts and issues, we come to the following two startling conclusions.
+        These questions may initially seem unassuming–of course our voting systems are fair, it’s the people’s voice after all! However, as soon as we rigorously (meaning, mathematically) tackle these concepts and issues, we come to the following two startling conclusions.
     </p>
     <ol type="1">
         <li>The only voting system that satisfies all of our intuitive notions of fairness is a dictatorship.</li>
@@ -42,7 +30,10 @@
         <li>A page where we include a rigorous mathematical proof of point 1, for the especially interested user.</li>
     </ul>
 </body>
+{% endblock %}
 
+{% block button %}
 <a href = "{{ url_for('render_intro')  }}" >
     <button>START</button>
 </a>
+{% endblock %}

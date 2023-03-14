@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'littlebase.html' %}
 
 {% block header2 %}
   <h2>{% block title %}Borda Count{% endblock %}</h2>
@@ -37,6 +37,17 @@
     </form>
 
     {% if bordaDF_interact %}
+    <br>
+    These are the points you chose for each ranking:
+    <br>
+
+    <li><b>Rank 1:</b> {{ Rank_1 }} points</li>
+    <li><b>Rank 2:</b> {{ Rank_2 }} points</li>
+    <li><b>Rank 3:</b> {{ Rank_3 }} points</li>
+    <li><b>Rank 4:</b> {{ Rank_4 }} points</li>
+    <li><b>Rank 5:</b> {{ Rank_5 }} points</li>
+      
+    <br>
     <br>
     {{  bordaDF_interact | safe }}
     <br>
