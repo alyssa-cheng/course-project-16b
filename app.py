@@ -19,20 +19,33 @@ def get_plurality_df():
 def plurality_graph():
     df = get_plurality_df()
     fig = px.bar(data_frame = df, 
-                 x = 'candidate', 
-                 y = 'number of votes',
-                 hover_name = 'candidate',
+                 x = 'Candidate', 
+                 y = 'Number of Votes',
+                 hover_name = 'Candidate',
                  width = 700,
                  height = 400)
 
     fig.update_layout(title = "Plurality Candidate Votes", xaxis_title = 'Name of Candidate', yaxis_title = 'Number of Votes')
-
+    
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 def get_borda_df(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
     bordaList = voting_systems.borda("votes", point_dict)
-    bordaDF = pd.DataFrame(bordaList, columns = ['candidate', 'number of votes'])
+    bordaDF = pd.DataFrame(bordaList, columns = ['Candidate', 'Number of Votes'])
     return bordaDF
+
+def borda_graph(point_dict = {1:1, 2:2, 3:3, 4:4, 5:5}):
+    df = get_borda_df(point_dict)
+    fig = px.bar(data_frame = df, 
+                 x = 'Candidate', 
+                 y = 'Number of Votes',
+                 hover_name = 'Candidate',
+                 width = 700,
+                 height = 400)
+
+    fig.update_layout(title = "Borda Count Candidate Votes", xaxis_title = 'Name of Candidate', yaxis_title = 'Number of Votes')
+    
+    return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 def get_irv_df():
     irvList = voting_systems.IRV("votes")
@@ -80,11 +93,13 @@ def render_borda():
     if request.method == "GET":
         bordaDF_og = get_borda_df()
         bordaDF_og = bordaDF_og.to_html(index = False)
-        return render_template("bordacount.html", bordaDF_og = bordaDF_og)
+        borda_graph_og = borda_graph()
+        return render_template("bordacount.html", bordaDF_og = bordaDF_og, borda_graph_og = borda_graph_og)
     else:
         if request.form["submit"] == "Submit Rank Values":
             bordaDF_og = get_borda_df()
             bordaDF_og = bordaDF_og.to_html(index = False)
+            borda_graph_og = borda_graph()
             
             rank1 = request.form['rank1']
             rank2 = request.form['rank2']
@@ -100,7 +115,10 @@ def render_borda():
             
             bordaDF_interact = get_borda_df(point_dict)
             bordaDF_interact = bordaDF_interact.to_html()
-            return render_template("bordacount.html", bordaDF_interact = bordaDF_interact, bordaDF_og = bordaDF_og)
+
+            borda_graph_interact = borda_graph(point_dict)
+
+            return render_template("bordacount.html", bordaDF_interact = bordaDF_interact, bordaDF_og = bordaDF_og, borda_graph_interact = borda_graph_interact, borda_graph_og = borda_graph_og)
         elif request.form["submit"] == "Submit":
             try:
                 url = request.form["system"]
@@ -135,9 +153,16 @@ def render_dictatorship():
     if request.method == "GET":
         return render_template("dictatorship.html")
     else:
-        url = request.form["system"]
-        return redirect(url_for(url))
-
+        if request.form["submit"] == "Submit Dictator":
+            
+            return render_template("dictatorship.html")
+        elif request.form["submit"] == "Submit":
+            try:
+                url = request.form["system"]
+                return render_template("dictatorship.html", dictator = url)
+            except:
+                return render_template("dictatorship.html")
+            
 @app.route('/choice/', methods=['POST','GET'])
 def render_choice():
     # if they submit a vote
