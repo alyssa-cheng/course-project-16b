@@ -44,3 +44,35 @@ nav {
 .sidenav {
     text-align:center
 }
+
+.BACK {
+    position: relative;
+    text-align: left;
+}
+
+.NEXT {
+    position: relative;
+    left: 675px;
+    bottom: 39px;
+}
+
+.CENTER{
+    text-align: center;
+}
+
+ button {
+    display: inline-block;
+    border: none;
+    background-color: white;
+    padding: 10px 25px;
+    font-size: 12px
+    color: #484E4B;
+ }
+
+ button:hover {
+    display: inline-block;
+    border: none;
+    background-color: #AAB3C7;
+    padding: 10px 25px;
+    color: #484E4B;
+ }

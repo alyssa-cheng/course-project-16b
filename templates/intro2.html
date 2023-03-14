@@ -31,11 +31,15 @@
 {% endblock %}
 
 {% block button %}
-<a href = "{{ url_for('render_intro') }}" >
-    <button>BACK</button>
-</a>
+<div class = "BACK">
+    <a href = "{{ url_for('render_intro') }}" >
+        <button>BACK</button>
+    </a>
+</div>
 
-<a href = "{{ url_for('render_start') }}" >
-    <button>NEXT</button>
-</a>
+<div class = "NEXT">
+    <a href = "{{ url_for('render_start') }}" >
+        <button>NEXT</button>
+    </a>
+</div>
 {% endblock %}
