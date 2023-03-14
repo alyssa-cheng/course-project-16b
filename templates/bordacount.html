@@ -12,7 +12,7 @@
     <div id='chart' class='chart'></div>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <script type='text/javascript'>
-      var graphs = {{borda_graph_og | safe}};
+      var graphs = {{borda_plot_og | safe}};
       Plotly.plot('chart',graphs,{});
     </script>
     <br>
@@ -35,8 +35,10 @@
         <br>
         <input type="submit" name="submit" value="Submit Rank Values">
     </form>
+    <br>
 
     {% if bordaDF_interact %}
+    <hr class="solid">
     <br>
     These are the points you chose for each ranking:
     <br>
@@ -54,7 +56,7 @@
     <div id='chart2' class='chart2'></div>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <script type='text/javascript'>
-      var graphs = {{borda_graph_interact | safe}};
+      var graphs = {{borda_plot_interact | safe}};
       Plotly.plot('chart2',graphs,{});
     </script>
     {% endif %}

@@ -5,23 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <p>There is one person whose vote for first place always becomes the winning choice.</p>
-
+    <p> Choose an index between 0 and {{upperbound}}. A corresponding Alaskan voter will be deemed dictator and their top preference will be the winner of the election.</p>
     <form method = post>
-      <label for = 'system'>Vote on a dictator!</label>
-      <select id = 'system' name = 'system'>
-          <option value = 'render_dictatorship'>Joseph R. Biden</option>
-          <option value = 'render_dictatorship'>Bernie Sanders</option>
-          <option value = 'render_dictatorship'>Elizabeth Warren</option>
-          <option value = 'render_dictatorship'>Pete Buttigieg</option>
-          <option value = 'render_dictatorship'>Amy Klobuchar</option>
-          <option value = 'render_dictatorship'>Tulsi Gabbard</option>
-          <option value = 'render_dictatorship'>Michael R. Bloomberg</option>
-          <option value = 'render_dictatorship'>Tom Steyer</option>
-      </select>
-      <input type="submit" name = "submit" value="Submit Dictator">
+      <label for="indexDict">Dictator index:</label>
+      <input type="number" name = "indexDict">
+      <br>
+      <input type="submit" name = "submit" value="Submit choice for dictator">
   </form>
 
-    
+  {% if chooseDict %}
+    <p>{{ resultDict }}</p>
+  {% endif %}
 
 {% endblock %}

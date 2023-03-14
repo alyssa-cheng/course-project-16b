@@ -6,19 +6,22 @@
     <h1> Know Your Voting Systems </h1>
     <h2>(and why they are bad)</h2>
     
-    <div class="sidenav">
-        <a href="{{ url_for('render_main')  }}">Main</a> | 
-        <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a> | 
-        <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a> | 
-        <a href="{{ url_for('render_start')  }}">Play With Voting</a> | 
-        <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
-    </div>
+    <ul class = "nav">
+        <li><a href="{{ url_for('render_main')  }}">Main</a></li>
+        <li><a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a></li>
+        <li><a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a></li> 
+        <li><a href="{{ url_for('render_start')  }}">Play With Voting</a></li>
+        <li><a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a></li>
+    </ul>
 {% endblock %}
 
 {% block text %}
 {% endblock %}
 
 {% block links %}
+{% endblock %}
+
+{% block line %}
 {% endblock %}
 
 {% block header2 %}
@@ -28,6 +31,9 @@
 {% endblock %}
 
 {% block plot %}
+{% endblock %}
+
+{% block results %}
 {% endblock %}
 
 {% block button %}

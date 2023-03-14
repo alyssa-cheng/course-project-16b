@@ -1,15 +1,8 @@
-<!doctype html>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% extends 'bigbase.html' %}
 
-<h1>Rank Your Favorite Voting Sytems!</h1>
-
-<div class="sidenav">
-  <a href="{{ url_for('render_main')  }}">Main</a> | 
-  <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a> | 
-  <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a> | 
-  <a href="{{ url_for('render_start')  }}">Play With Voting</a> | 
-  <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
-</div>
+{% block header2 %}
+  <h2>{% block title %}Rank Your Favorite Voting Systems!{% endblock %}</h2>
+{% endblock %}
 
 <br>
 {% block content %}
@@ -63,7 +56,6 @@
 </form>
 
 {% if submitted %}
-  <br>
   <p>Thanks for your vote!</p>
 {% endif %}
 
@@ -78,9 +70,11 @@
 <li>Top Two Runoff: {{results["toptwo"]}}</li>
 {% endblock %}
 
+{% block button %}
 <br>
 <div class = "BACK">
   <a href = "{{ url_for('render_start') }}" >
     <button>BACK</button>
   </a>
 </div>
+{% endblock %}
