@@ -54,7 +54,7 @@ def get_irv_df():
 
 def get_toptwo_df():
     toptwoList = voting_systems.TopTwo("votes")
-    toptwoDF = pd.DataFrame(toptwoList, columns = ['Candidate', 'Number of Votes'])
+    toptwoDF = pd.DataFrame(toptwoList, columns = ['Candidate'])
     return toptwoDF
 
 @app.route("/")
@@ -148,13 +148,29 @@ def render_toptwo():
         url = request.form["system"]
         return redirect(url_for(url))
 
+##### NAJI CHANGED THIS FUNCTION
 @app.route("/dictatorship/", methods = ["GET", "POST"])
 def render_dictatorship():
+    with voting_systems.get_voter_db() as conn:
+            cursor = conn.cursor()
+            cmd = "SELECT COUNT(*) FROM votes"
+            cursor.execute(cmd)
+            upperbound0 = cursor.fetchall()[0][0]
+            upperbound0 -= 1
+            upperbound = str(upperbound0)
     if request.method == "GET":
-        return render_template("dictatorship.html")
+        return render_template("dictatorship.html", upperbound = upperbound, chooseDict = False, resultDict = ' ')
     else:
-        url = request.form["system"]
-        return redirect(url_for(url))
+        errorstring = f"This is not an acceptable index. Please input an integer between 0 and {upperbound}."
+        indexDict = request.form["indexDict"]
+        indexDict = int(indexDict)
+        resultDict = voting_systems.dictatorship("votes",index=indexDict)
+        if (indexDict < 0) or (indexDict > upperbound0):
+            resultDict = errorstring
+        else:
+            resultDict = str(resultDict)
+        
+        return render_template("dictatorship.html", upperbound = upperbound, chooseDict = True, resultDict = resultDict)
 
 @app.route('/choice/', methods=['POST','GET'])
 def render_choice():
@@ -167,11 +183,15 @@ def render_choice():
         rank4 = request.form['rank4']
         rank5 = request.form['rank5']
         vote = [rank1, rank2, rank3, rank4, rank5]
-        voting_systems.add_vote(vote)
-        results = voting_systems.get_favorite_systems() #get results after submission
-        # display the thank you message
-        return render_template('choice.html', submitted=True, results=results)
+        if len(list(set(vote))) == 5: # if valid vote (all unique inputs)
+            voting_systems.add_vote(vote)
+            results = voting_systems.get_favorite_systems() #get results after submission
+            # display the thank you message
+            return render_template('choice.html', submitted=True, results=results, badsubmit=False)
+        else: 
+            results = voting_systems.get_favorite_systems()
+            return render_template('choice.html', submitted=False, results=results, badsubmit=True)
     # otherwise display the standard page
     else:
         results = voting_systems.get_favorite_systems()
-        return render_template('choice.html', submitted=False, results=results)
+        return render_template('choice.html', submitted=False, results=results, badsubmit=False)
