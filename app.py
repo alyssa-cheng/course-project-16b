@@ -11,18 +11,18 @@ from plot_data import plurality_plot, borda_plot
 app = Flask(__name__)
 
 @app.route("/")
-def render_main():
-    return render_template("main.html")
+def render_home():
+    return render_template("home.html")
     
-@app.route("/intro/")
+@app.route("/WhatIsRCVoting/")
 def render_intro():
     return render_template("intro.html")
     
-@app.route("/intro2/")
+@app.route("/FairnessOfRCVoting/")
 def render_intro2():
     return render_template("intro2.html")
 
-@app.route("/start/", methods = ["GET", "POST"])
+@app.route("/PlayWithVoting/", methods = ["GET", "POST"])
 def render_start():
     if request.method == "GET":
         return render_template("start.html")
@@ -137,7 +137,7 @@ def render_dictatorship():
             url = request.form["system"]
             return redirect(url_for(url))
             
-@app.route('/choice/', methods=['POST','GET'])
+@app.route('/FavoriteSystems/', methods=['POST','GET'])
 def render_choice():
     # if they submit a vote
     if request.method == 'POST':
