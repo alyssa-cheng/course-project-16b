@@ -43,13 +43,6 @@ hr {
     border-top: 3px solid Grey;
 }
 
-/* .nav {
-    display: block;
-    background: AntiqueWhite;
-    padding: 0 0.5rem;
-    border-radius: 25px;
-} */
-
 .BACK {
     position: relative;
     bottom: -10.5px;
@@ -111,4 +104,11 @@ hr {
 
  .nav a:hover {
     background-color: #AAB3C7;
+}
+
+.dataframe {
+    font-family: "Trebuchet MS";
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 50%;
 }

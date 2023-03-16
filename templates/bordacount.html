@@ -7,7 +7,9 @@
 {% block content %}
     <p>Suppose there are n choices. Voters rank their choice in order of first, second, third, all the way until n-th place (last). For each first place vote a choice receives, the choice is given n-1 points. For each second place vote a choice receives, the choice is given n-2 points. In general, for each k-th place vote a choice receives, the choice is given n-points. The voting system then ranks the choices in order of most points earned to least points earned. The winner is the choice with the most points.</p>
     <br>
-    {{  bordaDF_og | safe }}
+    <div class="table">
+      {{  bordaDF_og | safe }}
+    </div>
     <br>
     <div id='chart' class='chart'></div>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
@@ -51,7 +53,9 @@
       
     <br>
     <br>
-    {{  bordaDF_interact | safe }}
+    <div class="table">
+      {{  bordaDF_interact | safe }}
+    </div>
     <br>
     <div id='chart2' class='chart2'></div>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
