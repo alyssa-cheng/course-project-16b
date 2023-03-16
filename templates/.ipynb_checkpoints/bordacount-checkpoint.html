@@ -1,18 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'littlebase.html' %}
 
 {% block header2 %}
   <h2>{% block title %}Borda Count{% endblock %}</h2>
 {% endblock %}
 
 {% block content %}
-    <p>Each first-place vote counts as 5 points, each second-place vote counts as 4, etc, add up the number of points</p>
+    <p>Suppose there are n choices. Voters rank their choice in order of first, second, third, all the way until n-th place (last). For each first place vote a choice receives, the choice is given n-1 points. For each second place vote a choice receives, the choice is given n-2 points. In general, for each k-th place vote a choice receives, the choice is given n-points. The voting system then ranks the choices in order of most points earned to least points earned. The winner is the choice with the most points.</p>
     <br>
-    {{  bordaDF_og | safe }}
+    <div class="table">
+      {{  bordaDF_og | safe }}
+    </div>
     <br>
     <div id='chart' class='chart'></div>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <script type='text/javascript'>
-      var graphs = {{borda_graph_og | safe}};
+      var graphs = {{borda_plot_og | safe}};
       Plotly.plot('chart',graphs,{});
     </script>
     <br>
@@ -35,15 +37,30 @@
         <br>
         <input type="submit" name="submit" value="Submit Rank Values">
     </form>
+    <br>
 
     {% if bordaDF_interact %}
+    <hr class="solid">
     <br>
-    {{  bordaDF_interact | safe }}
+    These are the points you chose for each ranking:
+    <br>
+    <ul>
+    <li><b>Rank 1:</b> {{ Rank_1 }} points</li>
+    <li><b>Rank 2:</b> {{ Rank_2 }} points</li>
+    <li><b>Rank 3:</b> {{ Rank_3 }} points</li>
+    <li><b>Rank 4:</b> {{ Rank_4 }} points</li>
+    <li><b>Rank 5:</b> {{ Rank_5 }} points</li>
+</ul>
+    <br>
+    <br>
+    <div class="table">
+      {{  bordaDF_interact | safe }}
+    </div>
     <br>
     <div id='chart2' class='chart2'></div>
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <script type='text/javascript'>
-      var graphs = {{borda_graph_interact | safe}};
+      var graphs = {{borda_plot_interact | safe}};
       Plotly.plot('chart2',graphs,{});
     </script>
     {% endif %}

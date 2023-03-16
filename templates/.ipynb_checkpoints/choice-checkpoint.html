@@ -1,15 +1,9 @@
-<!doctype html>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% extends 'bigbase.html' %}
 
-<h1>Rank Your Favorite Voting Sytems!</h1>
+{% block header2 %}
+  <h2>{% block title %}Rank Your Favorite Voting Systems!{% endblock %}</h2>
+{% endblock %}
 
-<div class="sidenav">
-  <a href="{{ url_for('render_main')  }}">Main</a> | 
-  <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a> | 
-  <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a> | 
-  <a href="{{ url_for('render_start')  }}">Play With Voting</a> | 
-  <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
-</div>
 <br>
 {% block content %}
 <form method="post">
@@ -73,14 +67,20 @@
 
 {% block results %}
 <p>Here are the current favorites based on each voting system.</p>
-<li>Borda Count: {{results["borda"]}}</li>
-<li>Dictatorship: {{results["dictator"]}}</li>
-<li>Instant Runoff: {{results["irv"]}}</li>
-<li>Plurality: {{results["plural"]}}</li>
-<li>Top Two Runoff: {{results["toptwo"]}}</li>
+<ul>
+<li><b>Borda Count:</b> {{results["borda"]}}</li>
+<li><b>Dictatorship:</b> {{results["dictator"]}}</li>
+<li><b>Instant Runoff:</b> {{results["irv"]}}</li>
+<li><b>Plurality:</b> {{results["plural"]}}</li>
+<li><b>Top Two Runoff:</b> {{results["toptwo"]}}</li>
+</ul>
 {% endblock %}
 
+{% block button %}
 <br>
-<a href = "{{ url_for('render_start') }}" >
+<div class = "BACK">
+  <a href = "{{ url_for('render_start') }}" >
     <button>BACK</button>
-</a>
+  </a>
+</div>
+{% endblock %}

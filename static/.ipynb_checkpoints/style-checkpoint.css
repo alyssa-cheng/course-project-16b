@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    max-width: 750px;
+    max-width: 839px;
     margin: 0 auto;
 }
 
@@ -17,7 +17,7 @@ h1, h2 {
     text-align: center;
 }
 
-li {
+ul li {
     list-style-type: none;
     padding-left: 1.5rem;
     background-image: url(https://cdn-icons-png.flaticon.com/512/590/590685.png);
@@ -43,13 +43,72 @@ hr {
     border-top: 3px solid Grey;
 }
 
-nav {
-    display: block;
-    background: AntiqueWhite;
-    padding: 0 0.5rem;
-    border-radius: 25px;
+.BACK {
+    position: relative;
+    bottom: -10.5px;
+    float: left;
 }
 
-.sidenav {
-    text-align:center
+.NEXT {
+    position: relative;
+    bottom: -10.5px;
+    float: right;
+}
+
+.CENTER{
+    text-align: center;
+}
+
+ button {
+    display: inline-block;
+    border: none;
+    background-color: white;
+    padding: 10px 25px;
+    font-size: 12px;
+    color: #484E4B;
+    border-radius: 8px;
+ }
+
+ button:hover {
+    display: inline-block;
+    border: none;
+    background-color: #AAB3C7;
+    padding: 10px 25px;
+    color: #484E4B;
+ }
+
+ .nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+ }
+
+ .nav a {
+    float: left;
+ }
+
+.nav a{
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+    font-family: 'trebuchet ms';
+    border-right: 2px solid #AAB3C7;
+ }
+
+ .nav a:last-child {
+    border-right: 0px;
+ }
+
+ .nav a:hover {
+    background-color: #AAB3C7;
+}
+
+.dataframe {
+    font-family: "Trebuchet MS";
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 50%;
 }
