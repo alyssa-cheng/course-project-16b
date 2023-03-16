@@ -62,8 +62,11 @@
 </form>
 
 {% if submitted %}
-  <br>
   <p>Thanks for your vote!</p>
+{% endif %}
+
+{% if badsubmit %}
+  <p>Please make sure that you only vote for each option once.</p>
 {% endif %}
 
 {% endblock %}

@@ -107,6 +107,7 @@ def render_toptwo():
         url = request.form["system"]
         return redirect(url_for(url))
 
+##### NAJI CHANGED THIS FUNCTION
 @app.route("/dictatorship/", methods = ["GET", "POST"])
 def render_dictatorship():
     with voting_systems.get_voter_db() as conn:
@@ -147,11 +148,15 @@ def render_choice():
         rank4 = request.form['rank4']
         rank5 = request.form['rank5']
         vote = [rank1, rank2, rank3, rank4, rank5]
-        voting_systems.add_vote(vote)
-        results = voting_systems.get_favorite_systems() #get results after submission
-        # display the thank you message
-        return render_template('choice.html', submitted=True, results=results)
+        if len(list(set(vote))) == 5: # if valid vote (all unique inputs)
+            voting_systems.add_vote(vote)
+            results = voting_systems.get_favorite_systems() #get results after submission
+            # display the thank you message
+            return render_template('choice.html', submitted=True, results=results, badsubmit=False)
+        else: 
+            results = voting_systems.get_favorite_systems()
+            return render_template('choice.html', submitted=False, results=results, badsubmit=True)
     # otherwise display the standard page
     else:
         results = voting_systems.get_favorite_systems()
-        return render_template('choice.html', submitted=False, results=results)
+        return render_template('choice.html', submitted=False, results=results, badsubmit=False)

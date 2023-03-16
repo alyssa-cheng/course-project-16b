@@ -32,7 +32,7 @@ def get_voter_db():
         return g.voter_db
 
 def get_results(db_name):
-    #hard-coded because we only need to worry about two tables
+    #hard-coded for tables used in the project
     if db_name == "votes":
         return ['Tulsi Gabbard',
                 'Elizabeth Warren',
@@ -42,12 +42,14 @@ def get_results(db_name):
                 'Joseph R. Biden',
                 'Bernie Sanders',
                 'Amy Klobuchar']
-    else:
+    elif db_name == "ranking_votes":
         return ['Borda Count',
                 'Top Two Runoff',
                 'Dictatorship',
                 'Instant Runoff',
                 'Plurality']
+    else:
+        pass #extract all unique entries in all columns
 
 def get_ranks(name,db_name):
     with get_voter_db() as conn:
@@ -75,7 +77,7 @@ def plurality(db_name):
         ORDER BY COUNT(rank1) DESC
         """
         cursor.execute(cmd)
-        return cursor.fetchall()
+        return cursor.fetchall()[:5]
 
 def borda(db_name,point_dict={1:5,2:4,3:3,4:2,5:1}):
     #ask if there's a more efficient way to do this
@@ -87,7 +89,7 @@ def borda(db_name,point_dict={1:5,2:4,3:3,4:2,5:1}):
                 cmd = f"SELECT {point_dict[col]}*COUNT(rank{col}) FROM {db_name} WHERE (rank{col}=='{result}')"
                 cursor.execute(cmd)
                 count[result] = count.get(result,0) + cursor.fetchall()[0][0]
-    return sorted([(i,j) for i,j in count.items()],key = lambda x:-x[1])
+    return sorted([(i,j) for i,j in count.items()],key = lambda x:-x[1])[:5]
 
 def IRV(db_name):
     #brute-force implementation
@@ -143,29 +145,45 @@ def IRV(db_name):
             to_return = [last_place] + to_return
             can_win.remove(last_place)
             
-        return can_win + to_return
+        return (can_win + to_return)[:5]
     
 def TopTwo(db_name):
-    plural = plurality(db_name)
     try:
-        top_two = [plural[0][0],plural[1][0]]
-        count1 = np.sum([get_ranks(top_two[0],db_name)<get_ranks(top_two[1],db_name)])
-        count2 = np.sum([get_ranks(top_two[0],db_name)>get_ranks(top_two[1],db_name)])
-        results = list(zip(top_two,[count1,count2]))
-        if count1 > count2:
-            return results
-        else:
-            results.reverse()
-            return results
-    except: #in the case that plurality() only returns one result
-        return plural
+        with get_voter_db() as conn:
+            to_return = []
+            remaining = list(get_results(db_name))
+            cursor = conn.cursor()
+            while len(remaining) > 1:
+                cmd = f"""
+                SELECT rank1
+                FROM {db_name}
+                WHERE rank1 IN {tuple(remaining)}
+                GROUP BY rank1
+                ORDER BY COUNT(rank1) DESC
+                """
+                cursor.execute(cmd)
+                fetch = cursor.fetchall()
+                top_two = [fetch[0][0],fetch[1][0]]
+                count1 = np.sum([get_ranks(top_two[0],db_name)<get_ranks(top_two[1],db_name)])
+                count2 = np.sum([get_ranks(top_two[0],db_name)>get_ranks(top_two[1],db_name)])
+                if count1 > count2:
+                    to_return += [top_two[0]]
+                    remaining.remove(top_two[0])
+                else:
+                    to_return += [top_two[1]]
+                    remaining.remove(top_two[1])
+            return (to_return + remaining)[:5]
+    except: #in the case that plurality() only returns one result, will return that one element
+        return [plurality(db_name)[0][0]]
     
 def dictatorship(db_name,index=0):
     with get_voter_db() as conn:
         cursor = conn.cursor()
         try:
-            cursor.execute(f"SELECT rank1 FROM {db_name} LIMIT 1 OFFSET {index}")
-            return cursor.fetchall()[0][0]
+            cursor.execute(f"SELECT * FROM {db_name} LIMIT 1 OFFSET {index}")
+            results = cursor.fetchall()[0]
+            results = [i for i in results if i != "N/A"]
+            return results[0] #returns highest non-N/A value
         except:
             return -1
     
@@ -180,14 +198,14 @@ def add_vote(vote_list):
         
 def get_favorite_systems():
     try:
-        view_rankings() #for debugging
+        #view_rankings() #for debugging
         return {"borda":borda("ranking_votes")[0][0],
                 "dictator":dictatorship("ranking_votes"),
                 "irv":IRV("ranking_votes")[0],
                 "plural":plurality("ranking_votes")[0][0],
-                "toptwo":TopTwo("ranking_votes")[0][0]}
+                "toptwo":TopTwo("ranking_votes")[0]}
     except:
-        view_rankings() #for debugging
+        #view_rankings() #for debugging
         return {"borda":"",
                 "dictator":"",
                 "irv":"",
