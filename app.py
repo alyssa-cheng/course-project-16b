@@ -67,7 +67,7 @@ def render_borda():
                           5 : rank5}
 
             bordaDF_interact = get_borda_df(point_dict)
-            bordaHTML_interact = bordaDF_interact.to_html()
+            bordaHTML_interact = bordaDF_interact.to_html(index = False)
 
             borda_plot_interact = borda_plot(bordaDF_interact, point_dict)
 

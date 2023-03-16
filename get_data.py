@@ -21,5 +21,5 @@ def get_irv_df():
 
 def get_toptwo_df():
     toptwoList = voting_systems.TopTwo("votes")
-    toptwoDF = pd.DataFrame(toptwoList, columns = ['Candidate', 'Number of Votes'])
+    toptwoDF = pd.DataFrame(toptwoList, columns = ['Candidate'])
     return toptwoDF

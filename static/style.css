@@ -43,12 +43,12 @@ hr {
     border-top: 3px solid Grey;
 }
 
-nav {
+/* .nav {
     display: block;
     background: AntiqueWhite;
     padding: 0 0.5rem;
     border-radius: 25px;
-}
+} */
 
 .BACK {
     position: relative;
@@ -84,18 +84,18 @@ nav {
     color: #484E4B;
  }
 
- ul.nav {
+ .nav {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
  }
 
- ul.nav li {
+ .nav a {
     float: left;
  }
 
- ul.nav li a{
+.nav a{
     display: block;
     color: black;
     text-align: center;
@@ -105,10 +105,10 @@ nav {
     border-right: 2px solid #AAB3C7;
  }
 
- ul.nav li:last-child a {
+ .nav a:last-child {
     border-right: 0px;
  }
 
- ul.nav li a:hover {
+ .nav a:hover {
     background-color: #AAB3C7;
 }

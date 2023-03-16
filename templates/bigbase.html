@@ -6,13 +6,13 @@
     <h1> Know Your Voting Systems </h1>
     <h2>(and why they are bad)</h2>
     
-    <ul class = "nav">
-        <li><a href="{{ url_for('render_main')  }}">Home</a></li>
-        <li><a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a></li>
-        <li><a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a></li> 
-        <li><a href="{{ url_for('render_start')  }}">Play With Voting</a></li>
-        <li><a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a></li>
-    </ul>
+    <div class = "nav">
+        <a href="{{ url_for('render_main')  }}">Home</a>
+        <a href="{{ url_for('render_intro')  }}">What Is R.C. Voting</a>
+        <a href="{{ url_for('render_intro2')  }}">Fairness of R.C. Voting</a>
+        <a href="{{ url_for('render_start')  }}">Play With Voting</a>
+        <a href="{{ url_for('render_choice')  }}">Vote for Your Favorite System</a>
+    </div>
 {% endblock %}
 
 {% block text %}
