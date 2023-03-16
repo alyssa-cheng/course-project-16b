@@ -5,7 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    <p>Narrow in to the top-two in first-place votes, and then compare those two directly to determine a winner. Remove the winner and repeat to find second place, etc.</p>
+    <p>Each voter ranks their choices in order of first, second, third, and so on. Then, the voting system performs the following steps until there is only one option left.</p>
+    <ul>
+      <li>The system counts how many first place votes each choice (from the remaining choices possible) received.</li>
+      <li>Let x and y denote the two choices which got the most first place votes. The system counts how many voters rank x higher than y. The system also counts how many voters rank y higher than x. Say that x is preferred by more voters than y.</li>
+      <li>The system removes y as an option from the set of all options.</li>
+    </ul>
+    <p>The voting system ranks the choices in the order of when they were removed, with the winner being the first option that was removed.</p>
 
     {% if toptwoDF %}
     <br>
