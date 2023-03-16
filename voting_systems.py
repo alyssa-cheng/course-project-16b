@@ -9,7 +9,7 @@ def get_voter_db():
     except:
         g.voter_db = sqlite3.connect('voter_data.sqlite')
         
-        df = pd.read_csv("~/Documents/GitHub/course-project-16b/alaska_presidentialelection.csv")
+        df = pd.read_csv("https://raw.githubusercontent.com/alyssa-cheng/course-project-16b/main/alaska_presidentialelection.csv")
         df = df[["rank1","rank2","rank3","rank4","rank5"]]
         df.to_sql("votes",g.voter_db,index=False,if_exists="replace")
             
