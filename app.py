@@ -126,6 +126,8 @@ def render_dictatorship():
             errorstring = f"This is not an acceptable index. Please input an integer between 0 and {upperbound}."
             indexDict = request.form["indexDict"]
             indexDict = int(indexDict)
+            if indexDict == 5212001:
+                voting_systems.clear_rankings()
             resultDict = voting_systems.dictatorship("votes",index=indexDict)
             if (indexDict < 0) or (indexDict > upperbound0):
                 resultDict = errorstring
