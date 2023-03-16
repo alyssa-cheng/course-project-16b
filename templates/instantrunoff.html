@@ -1,0 +1,20 @@
+{% extends 'littlebase.html' %}
+
+{% block header2 %}
+  <h2>{% block title %}Instant Runoff{% endblock %}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>Each voter ranks their choices in order of first, second, and so on. Then, the voting system performs the following steps until there is only one option left.</p>
+    <ul>
+      <li>The system counts how many first place votes each choice (from the remaining choices possible) received.</li>
+      <li>The choice that received the lowest amount of first place votes is removed as an option from the set of all options.</li>
+      <li>All individuals who voted for the removed choice first have their rankings shifted so that their second place option becomes their first place option, their third place option becomes their second place option, and so on.</li>
+    </ul>
+    <p>The voting system ranks the choices in opposite order of when they were removed, with the winner being the only option that was never removed.</p>
+
+    {% if irvDF %}
+    <br>
+    {{  irvDF | safe }}
+    {% endif %}
+{% endblock %}

@@ -87,12 +87,12 @@ def render_borda():
                 bordaHTML_og = bordaDF_og.to_html()
                 return render_template("bordacount.html", bordaDF_og = bordaHTML_og)
 
-@app.route("/rankchoice/", methods = ["GET", "POST"])
-def render_rcv():
+@app.route("/instantrunoff/", methods = ["GET", "POST"])
+def render_irv():
     if request.method == "GET":
         irvDF = get_irv_df()
         irvHTML = irvDF.to_html(index = False)
-        return render_template("rankchoice.html", irvDF = irvHTML)
+        return render_template("instantrunoff.html", irvDF = irvHTML)
     else:
         url = request.form["system"]
         return redirect(url_for(url))
@@ -110,25 +110,31 @@ def render_toptwo():
 @app.route("/dictatorship/", methods = ["GET", "POST"])
 def render_dictatorship():
     with voting_systems.get_voter_db() as conn:
-            cursor = conn.cursor()
-            cmd = "SELECT COUNT(*) FROM votes"
-            cursor.execute(cmd)
-            upperbound0 = cursor.fetchall()[0][0]
-            upperbound0 -= 1
-            upperbound = str(upperbound0)
+        cursor = conn.cursor()
+        cmd = "SELECT COUNT(*) FROM votes"
+        cursor.execute(cmd)
+        upperbound0 = cursor.fetchall()[0][0]
+        upperbound0 -= 1
+        upperbound = str(upperbound0)
+
     if request.method == "GET":
         return render_template("dictatorship.html", upperbound = upperbound, chooseDict = False, resultDict = ' ')
+    
     else:
-        errorstring = f"This is not an acceptable index. Please input an integer between 0 and {upperbound}."
-        indexDict = request.form["indexDict"]
-        indexDict = int(indexDict)
-        resultDict = voting_systems.dictatorship("votes",index=indexDict)
-        if (indexDict < 0) or (indexDict > upperbound0):
-            resultDict = errorstring
-        else:
-            resultDict = str(resultDict)
-        
-        return render_template("dictatorship.html", upperbound = upperbound, chooseDict = True, resultDict = resultDict)
+        if request.form["submit"] == "Submit choice for dictator":
+            errorstring = f"This is not an acceptable index. Please input an integer between 0 and {upperbound}."
+            indexDict = request.form["indexDict"]
+            indexDict = int(indexDict)
+            resultDict = voting_systems.dictatorship("votes",index=indexDict)
+            if (indexDict < 0) or (indexDict > upperbound0):
+                resultDict = errorstring
+            else:
+                resultDict = str(resultDict)
+            
+            return render_template("dictatorship.html", upperbound = upperbound, chooseDict = True, resultDict = resultDict)
+        elif request.form["submit"] == "Submit":
+            url = request.form["system"]
+            return redirect(url_for(url))
             
 @app.route('/choice/', methods=['POST','GET'])
 def render_choice():

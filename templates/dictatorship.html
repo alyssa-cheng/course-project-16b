@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block content %}
+    <p>Each voter ranks their choices in order of first, second, third, and so on. Yet, the voting system ranks the choices using the vote of one single particular voter. The winner is the first place vote of that particular voter. In other words, there is only one individual that decides the winner of the election and everyone else has no say.</p>
     <p> Choose an index between 0 and {{upperbound}}. A corresponding Alaskan voter will be deemed dictator and their top preference will be the winner of the election.</p>
     <form method = post>
       <label for="indexDict">Dictator index:</label>
       <input type="number" name = "indexDict">
-      <br>
       <input type="submit" name = "submit" value="Submit choice for dictator">
   </form>
 

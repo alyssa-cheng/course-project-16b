@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    max-width: 831px;
+    max-width: 839px;
     margin: 0 auto;
 }
 
@@ -62,8 +62,9 @@ nav {
     border: none;
     background-color: white;
     padding: 10px 25px;
-    font-size: 12px
+    font-size: 12px;
     color: #484E4B;
+    border-radius: 8px;
  }
 
  button:hover {
@@ -87,7 +88,7 @@ nav {
 
  ul.nav li a{
     display: block;
-    color: #484E4B;
+    color: black;
     text-align: center;
     padding: 16px;
     text-decoration: none;
