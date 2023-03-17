@@ -106,9 +106,22 @@ hr {
     background-color: #AAB3C7;
 }
 
-.dataframe {
+table.dataframe {
     font-family: "Trebuchet MS";
+    border: 0px;
     border-collapse: collapse;
-    border-spacing: 0;
     width: 50%;
+}
+
+th {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #AAB3C7;
+    text-align: left;
+}
+
+td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: white;
 }
