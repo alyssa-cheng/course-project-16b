@@ -113,14 +113,14 @@ table.dataframe {
     width: 50%;
 }
 
-th {
+.dataframe th {
     padding-top: 5px;
     padding-bottom: 5px;
     background-color: #AAB3C7;
     text-align: left;
 }
 
-td {
+.dataframe td {
     padding-top: 5px;
     padding-bottom: 5px;
     background-color: white;
