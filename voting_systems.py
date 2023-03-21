@@ -13,7 +13,7 @@ def get_voter_db():
         g.voter_db = sqlite3.connect('voter_data.sqlite')
         
         #create table in database for Alaska dataset
-        df = pd.read_csv("https://raw.githubusercontent.com/alyssa-cheng/course-project-     16b/main/alaska_presidentialelection.csv")
+        df = pd.read_csv("https://raw.githubusercontent.com/alyssa-cheng/course-project-16b/main/alaska_presidentialelection.csv")
         df = df[["rank1","rank2","rank3","rank4","rank5"]]
         df.to_sql("votes",g.voter_db,index=False,if_exists="replace")
         
