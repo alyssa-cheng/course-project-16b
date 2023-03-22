@@ -113,15 +113,24 @@ def borda(db_name,point_dict={1:5,2:4,3:3,4:2,5:1}):
 def IRV(db_name):
     '''
     applies instant runoff vote to data in db_name
-    returns resulting preference
+    returns resulting preference as well as associated
+    source, target, and value lists for a Sankey diagram
     '''
     can_win = get_results(db_name) #remaining possible winning candidates
     to_return = []
     with get_voter_db() as conn:
         cursor = conn.cursor()
+
+        #variables needed for Sankey diagram
+        count = 0
+        source = []
+        target = []
+        values = []
+        talliesOld = []
+        
         while len(can_win)>1: #iterates rounds of instant runoff
             votes=[]
-            tallies=[]
+            talliesNew=[]
             can_win_str = tuple(can_win)
             
             #count number of first place votes in current iteration of instant runoff
@@ -158,17 +167,38 @@ def IRV(db_name):
             #consolidate votes for each candidate
             for person in can_win:
                 vote_count = sum([dict(votes[i]).get(person,0) for i in range(5)])
-                tallies += [(person,vote_count)]
+                talliesNew += [(person,vote_count)]
             
             #determine last place in current round of instant runoff
-            tallies = sorted(tallies,key=lambda x:-x[1])
-            last_place = tallies[-1][0]
+            talliesNew = sorted(talliesNew,key=lambda x:-x[1])
+            last_place = talliesNew[-1][0]
             
             #update to_return and can_win
             to_return = [last_place] + to_return
             can_win.remove(last_place)
+
+            #determining source, target, and value for this round of IRV
+            if talliesOld:
+                n = len(talliesNew)
+                source += [talliesOld[j][0].split()[-1]+str(count-1) for j in range(n)]
+                target += [talliesNew[j][0].split()[-1]+str(count) for j in range(n)]
+                values += [talliesOld[j][1] for j in range(n)]
+                
+                source += [talliesOld[-1][0].split()[-1]+str(count-1) for j in range(n-1)]
+                target += [talliesNew[j][0].split()[-1]+str(count) for j in range(n-1)]
+                values += [talliesNew[j][1]-talliesOld[j][1] for j in range(n-1)]                
             
-        return (can_win + to_return)[:5]
+            #updating to keep track of prior round                 
+            talliesOld = talliesNew
+            count += 1
+        
+        # determining overall rankings as well as source, target, and value lists
+        rankings = (can_win + to_return)
+        source += [talliesOld[0][0].split()[-1]+str(count-1), talliesOld[1][0].split()[-1]+str(count-1)]
+        target += [can_win[0].split()[-1]+str(count), can_win[0].split()[-1]+str(count),]
+        values += [talliesOld[0][1], talliesOld[1][1]] 
+            
+        return rankings, source, target, values
     
 def TopTwo(db_name):
     '''
@@ -241,7 +271,7 @@ def get_favorite_systems():
     try:
         return {"borda":borda("ranking_votes")[0][0],
                 "dictator":dictatorship("ranking_votes"),
-                "irv":IRV("ranking_votes")[0],
+                "irv":IRV("ranking_votes")[0][0],
                 "plural":plurality("ranking_votes")[0][0],
                 "toptwo":TopTwo("ranking_votes")[0]}
     except: #if ranking_votes is empty

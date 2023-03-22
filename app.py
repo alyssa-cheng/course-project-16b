@@ -6,7 +6,7 @@ import pandas as pd
 import sqlite3
 import voting_systems
 from get_data import get_plurality_df, get_borda_df, get_irv_df, get_toptwo_df
-from plot_data import plurality_plot, borda_plot
+from plot_data import plurality_plot, borda_plot, IRV_sankey
 
 app = Flask(__name__)
 
@@ -132,11 +132,14 @@ def render_irv():
     # if the request method is "GET"
     if request.method == "GET":
         # get instant runoff dataframe and convert to HTML
-        irvDF = get_irv_df()
+        irvDF, rankings, source, target, values = get_irv_df()
         irvHTML = irvDF.to_html(index = False)
+        
+        # sankey diagram for irv data
+        graphJSON = IRV_sankey(rankings, source, target, values)
 
         # render instantrunoff.html template 
-        return render_template("instantrunoff.html", irvDF = irvHTML)
+        return render_template("instantrunoff.html", graphJSON = graphJSON, irvDF = irvHTML)
     # if the "POST" method is from the drop down menu
     else:
         # render the url for the voting system user selected

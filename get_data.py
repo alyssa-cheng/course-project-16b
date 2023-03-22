@@ -44,10 +44,11 @@ def get_irv_df():
     """
     # getting instant runoff count data using the IRV() function in voting_systems.py
     # data in the form of a list of tuples
-    irvList = voting_systems.IRV("votes")
+    rankings, source, target, values  = voting_systems.IRV("votes")
+    irvList = rankings[:5]
     # converting data into pandas dataframe
     irvDF = pd.DataFrame(irvList, columns = ['Rankings'])
-    return irvDF
+    return irvDF, rankings, source, target, values
 
 def get_toptwo_df():
     """
