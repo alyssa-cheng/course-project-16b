@@ -164,6 +164,7 @@ def render_toptwo():
 
 @app.route("/dictatorship/", methods = ["GET", "POST"])
 def render_dictatorship():
+    # figuring out how many voters there are
     with voting_systems.get_voter_db() as conn:
         cursor = conn.cursor()
         cmd = "SELECT COUNT(*) FROM votes"
@@ -172,23 +173,32 @@ def render_dictatorship():
         upperbound0 -= 1
         upperbound = str(upperbound0)
 
+    # rendering dictatorship.html with correct upper bound for voter indices
     if request.method == "GET":
         return render_template("dictatorship.html", upperbound = upperbound, chooseDict = False, resultDict = ' ')
     
+    # this code if request method is POST
     else:
+        # when they submit an index to be the dictator
         if request.form["submit"] == "Submit choice for dictator":
+            # error checking to make sure index is in the correct range
             errorstring = f"This is not an acceptable index. Please input an integer between 0 and {upperbound}."
             indexDict = request.form["indexDict"]
             indexDict = int(indexDict)
-            if indexDict == 5212001:
-                voting_systems.clear_rankings()
             resultDict = voting_systems.dictatorship("votes",index=indexDict)
             if (indexDict < 0) or (indexDict > upperbound0):
                 resultDict = errorstring
             else:
                 resultDict = str(resultDict)
             
+            # one secret exception which is secret code to clear the
+            # votes from the "Vote for Your Favorite System" page
+            if indexDict == 5212001:
+                voting_systems.clear_rankings()
+            
+            # rendering the dictatorship.html to show results
             return render_template("dictatorship.html", upperbound = upperbound, chooseDict = True, resultDict = resultDict)
+        # when they click the submit button relating to choosing a voting system 
         elif request.form["submit"] == "Submit":
             url = request.form["system"]
             return redirect(url_for(url))

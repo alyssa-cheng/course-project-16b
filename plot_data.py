@@ -49,17 +49,29 @@ def borda_plot(df):
     # converting figure into a json object
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-### NEEDS WORK ###
 def IRV_sankey(rankings, sourceList, targetList, valuesList):
+    """
+    creates a sankey plot for the IRV data
+    args:
+        rankings:   list of candidate rankings in order from first place
+                    to last place (produced by voting_systems.IRV())
+        sourceList: list of candidates from which votes will move
+                    (produced by voting_systems.IRV())
+        targetList: list of candidates to which votes will move
+                    (produced by voting_systems.IRV())
+        valuesList: list of how many votes move from between candidates
+                    (produced by voting_systems.IRV())
+    returns:
+        a sankey plot in the form of a JSON object
+    """
     n = len(rankings)
 
     # Node position
-    xList = [round(j/8+0.01,3) for j in range(n) for name in rankings[:n-j]]
-    yList = [round(k/8+0.01,3) for j in range(n) for k in range(len(rankings[:n-j]))]
+    xList = [round(j/n+0.01,3) for j in range(n) for name in rankings[:n-j]]
+    yList = [round(k/n+0.01,3) for j in range(n) for k in range(len(rankings[:n-j]))]
 
     # Ordered labels
     labelList = [name.split()[-1] + str(j) for j in range(n) for name in rankings[:n-j]]
-    labelList
 
     # Node and link colors
     ColorDict = {rankings[j].split()[-1] : f'hsva({200-25*j},{100-12.5*j}%,100%,0.5)' for j in range(n)}
@@ -71,21 +83,42 @@ def IRV_sankey(rankings, sourceList, targetList, valuesList):
     sourceList = [indices.get(item,item)  for item in sourceList]
     targetList = [indices.get(item,item)  for item in targetList]
 
-    # creating the Sankey figure
+    # Removing indices at end of names for presentation
+    labelList = [name[:-1] for name in labelList]
+    
+    # Creating sankey figure
     fig = go.Figure(data=[go.Sankey(arrangement='snap',
                                     node = dict(pad = 30,
                                                 thickness = 10,
-                                                line = dict(color = "black", width = 0.5),
+                                                line = dict(color = "black",
+                                                            width = 0.5),
                                                 label = labelList,
                                                 color = nodeColorList,
                                                 x = xList,
-                                                y = yList),
+                                                y = yList,
+                                                hovertemplate='%{value} votes<extra></extra>'),
                                     link = dict(source = sourceList,
                                                 target = targetList,
                                                 value = valuesList,
-                                                color = linkColorList))])
-    
-    # adding titles
-    fig.update_layout(title_text="Basic Sankey Diagram", font_size=10)
+                                                color = linkColorList,
+                                                hovertemplate='%{value} votes move from %{source.label} to %{target.label}<extra></extra>'))])
+
+    # adding labels for each round of IRV
+    for j in range(n):
+        columnTitle = f"Round {j+1}"        # label text
+        xCoord = j/8+(j//3)*0.037 - 0.025   # label position
+        fig.add_annotation(x = xCoord,
+                        y = 1.07,
+                        xref = "paper",
+                        yref = "paper",
+                        text = columnTitle,
+                        showarrow = False,
+                        font = dict(size=14))
+        
+    # adding figure title and adjusting margins
+    fig.update_layout(title_text = "Sankey Diagram for IRV Rounds",
+                      margin = {"r":50,"t":100,"l":50,"b":50},
+                      font_size = 12)
+
     # converting figure into a json object
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
