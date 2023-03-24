@@ -7,18 +7,47 @@ app = Flask(__name__)
 
 @app.route("/")
 def render_home():
+    """
+    renders the home.html template
+    args:
+        none
+    returns:
+        a generated template file
+    """
     return render_template("home.html")
     
 @app.route("/WhatIsRCVoting/")
 def render_intro():
+    """
+    renders the intro.html template
+    args:
+        none
+    returns:
+        a generated template file
+    """
     return render_template("intro.html")
     
 @app.route("/FairnessOfRCVoting/")
 def render_intro2():
+    """
+    renders the intro2.html template
+    args:
+        none
+    returns:
+        a generated template file
+    """
     return render_template("intro2.html")
 
 @app.route("/PlayWithVoting/", methods = ["GET", "POST"])
 def render_start():
+    """
+    renders the start.html template
+    when user selects a voting system, it renders the selected voting system's page
+    args:
+        none
+    returns:
+        a generated template file
+    """
     # if the request method is "GET"
     if request.method == "GET":
         # render the start.html page
@@ -31,6 +60,14 @@ def render_start():
 
 @app.route("/plurality/", methods = ["GET", "POST"])
 def render_plurality():
+    """
+    renders the plurality.html template
+    when user selects a voting system while on this page, it renders the selected voting system's page
+    args:
+        none
+    returns:
+        a generated template file
+    """
     # if the request method is "GET"
     if request.method == "GET":
         # get plurality dataframe and convert it to HTML
@@ -50,6 +87,15 @@ def render_plurality():
 
 @app.route("/bordacount/", methods = ["GET", "POST"])
 def render_borda():
+    """
+    renders the bordacount.html template
+    depending on which submission button user selects, the function will either render the template with or without the interactive section
+    when user selects a voting system while on this page, it renders the selected voting system's page
+    args:
+        none
+    returns:
+        a generated template file
+    """
     # if the request method is "GET"
     if request.method == "GET":
         # get original borda count dataframe (regular point system) and convert to HTML
@@ -124,6 +170,14 @@ def render_borda():
 
 @app.route("/instantrunoff/", methods = ["GET", "POST"])
 def render_irv():
+    """
+    renders the instantrunoff.html template
+    when user selects a voting system while on this page, it renders the selected voting system's page
+    args:
+        none
+    returns:
+        a generated template file
+    """
     # if the request method is "GET"
     if request.method == "GET":
         # get instant runoff dataframe and convert to HTML
@@ -143,6 +197,14 @@ def render_irv():
 
 @app.route("/toptwo/", methods = ["GET", "POST"])
 def render_toptwo():
+    """
+    renders the toptwo.html template
+    when user selects a voting system while on this page, it renders the selected voting system's page
+    args:
+        none
+    returns:
+        a generated template file
+    """
     # if the request method is "GET"
     if request.method == "GET":
         # get top-two runoff dataframe and convert to HTML
@@ -159,6 +221,14 @@ def render_toptwo():
 
 @app.route("/dictatorship/", methods = ["GET", "POST"])
 def render_dictatorship():
+    """
+    renders the dictatorship.html template
+    when user selects a voting system while on this page, it renders the selected voting system's page
+    args:
+        none
+    returns:
+        a generated template file
+    """
     # figuring out how many voters there are
     with voting_systems.get_voter_db() as conn:
         cursor = conn.cursor()
@@ -200,6 +270,14 @@ def render_dictatorship():
             
 @app.route('/FavoriteSystems/', methods=['POST','GET'])
 def render_choice():
+    """
+    renders the choice.html template
+    user inputs a voting system for each drop down menu
+    args:
+        none
+    returns:
+        a generated template file
+    """
     # if user submits a vote
     if request.method == 'POST':
         # store the vote in the database
