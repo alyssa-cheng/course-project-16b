@@ -5,13 +5,27 @@
 {% endblock %}
 
 {% block content %}
-    <p>Each voter ranks their choices in order of first, second, third, and so on. Then, the voting system performs the following steps until there is only one option left.</p>
+    <p>
+      The top two runoff voting system works as follows. Each voter ranks the candidates in order of first, second, third, and so on.
+      Then, the voting system performs the following steps until there is only one option left.
+    </p>
     <ul>
-      <li>The system counts how many first place votes each choice (from the remaining choices possible) received.</li>
-      <li>Let x and y denote the two choices which got the most first place votes. The system counts how many voters rank x higher than y. The system also counts how many voters rank y higher than x. Say that x is preferred by more voters than y.</li>
-      <li>The system removes y as an option from the set of all options.</li>
+      <li>
+        The system counts how many first place votes each candidate (from the remaining choices possible) received.
+      </li>
+      <li>
+        Let x and y denote the two candidates which got the most first place votes. The system counts how many voters 
+        rank x higher than y. The system also counts how many voters rank y higher than x. Say that x is preferred by more voters than y.</li>
+      <li>
+        The system removes x as an option from the set of all options.
+      </li>
     </ul>
     <p>The voting system ranks the choices in the order of when they were removed, with the winner being the first option that was removed.</p>
+
+    <p>
+      Below are the rankings determined by top two runoff on the Alaska dataset depicted in a chart.
+      We see that Biden wins with Sanders again in second.
+    </p>
 
     {% if toptwoDF %}
     <br>
@@ -20,4 +34,35 @@
     </div>
     {% endif %}
 
+{% endblock %}
+
+{% block results %}
+    <br>
+    <hr class="solid">
+    <br>
+    <p>
+      Let's discuss top two runoff more generally.
+    </p>    
+
+    <p>
+      Top two runoff is specfically designed to satisfy the fairness principle of unanimity. If all voters prefer candidate A over
+      candidate B, then candidate A must recieve more rank 1 votes than candidate B and moreover A will beat B if candidates A and B 
+      face off as the top two in any particular round. By Arrow's impossibility theorem then, we know that top two runoff cannot satisfy
+      the IIA condition. Indeed, consider the example of three candidates A, B, C, D and 5 voters which vote as follows:
+      <ul>
+        <li>two voters rank C first, A second, B third, and D fourth;</li>
+        <li>two voters rank B first, A second, D third, and C fourth;</li>
+        <li>one voter ranks D first, A second, B third, and C fourth.</li>
+      </ul>
+      Top two runoff then gives the overall ranking of B first, D second, A third, and C fourth. However, if the voters instead 
+      respectively voted as follows
+      <ul>
+        <li>two voters rank A first, B second, D third, and C fourth (shift A,B,D up and put C in last);</li>
+        <li>two voters rank B first, A second, D third, and C fourth (same as before);</li>
+        <li>one voter ranks D first, A second, B third, and C fourth (sane as before);</li>
+      </ul>
+      then top two runoff gives the overall ranking of A first, B second, D third, and C fourth. So, even though in the two scenarios each
+      voter's preference between A and B did not change, the overall results changed from preferring B over A to preferring A over B. This means
+      top two runoff does not satisfy IIA!
+    </p>
 {% endblock %}

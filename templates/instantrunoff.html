@@ -5,13 +5,25 @@
 {% endblock %}
 
 {% block content %}
-    <p>Each voter ranks their choices in order of first, second, and so on. Then, the voting system performs the following steps until there is only one option left.</p>
+    <p>The instant runoff voting system works as follows. Each voter ranks their choices in order of first, second, and so on. Then, the voting system performs 
+      the following steps until there is only one option left.</p>
     <ul>
       <li>The system counts how many first place votes each choice (from the remaining choices possible) received.</li>
       <li>The choice that received the lowest amount of first place votes is removed as an option from the set of all options.</li>
-      <li>All individuals who voted for the removed choice first have their rankings shifted so that their second place option becomes their first place option, their third place option becomes their second place option, and so on.</li>
+      <li>All individuals who voted for the removed choice first have their rankings shifted so that their 
+        second place option becomes their first place option, their third place option becomes their second place option, and so on.</li>
     </ul>
-    <p>The voting system ranks the choices in opposite order of when they were removed, with the winner being the only option that was never removed.</p>
+    <p>The voting system ranks the choices in opposite order of when they were removed, with the winner
+       being the only option that was never removed.</p>
+
+    <p>
+      Below are the rankings determined by instant runoff on the Alaska dataset depicted in a chart as well as a sankey plot.
+      The sankey plot arranges the candidates into columns representing the round of instant runoff voting. The candidates are
+      ordered vertically in order of how many "votes" they have that round ("votes" being in parentheses since votes move between
+      candidates as candidates get knocked out). The links between nodes show how many votes move from a candidate to all other
+      candidates between rounds. Please interact with the plot to see the number of votes each candidate has per round and how many
+      votes move from candidate to candidate!
+    </p>
 
     {% if irvDF %}
     <br>
@@ -29,4 +41,43 @@
     var graphs = {{graphJSON | safe}};
     Plotly.plot('chart',graphs,{});
   </script>
+{% endblock %}
+
+{% block results %}
+    <br>
+    <hr class="solid">
+    <br>
+    <p>
+      The sankey plot really demonstrates the extent to which Alaskans favored Biden and Sanders over all 
+      other candidates. Throughout every round of instant run off, Biden and Sanders lead the candidates by 
+      far. Even more surprisingly, the order of the candidates does not change even once throughout each round 
+      of instant runoff! 
+    </p>
+    
+    <p>
+      We should note that the sankey plot above reveals two peculiarities of the Alaska voting system:
+      <ul>
+        <li>
+          there were eight candidates but voters were only allowed to rank their top five;
+        </li>
+        <li>
+          voters were allowed to skip assigning a canidate to a particular rank (for example, one
+          voter ranked Sanders first, skipped rankings 2 through 4, and then ranked Biden fifth).</li>
+      </ul>
+      These two properties of the Alaska voting system can cause votes to be "lost" in between rounds of
+      instant runoff. For example, hovering above the node for Warren in round 6 shows that she had about
+      1,810 votes. However, hovering above the links from Warren to Biden and to Sanders shows that only
+      1526 = 688+838 votes moved from Warren to Biden and Sanders after she was elimated, leaving approximately
+      300 votes unaccounted for. These missing votes are not a calculation error (we quadruple checked), rather,
+      they reflect that about 300 voters simply did not rank anyone lower than they ranked Warren either due to 
+      not being able to rank more than five candidates or simply skipping assigning candidates to lower rankings.
+    </p>
+
+    <p>
+      In general, instant runoff can be shown to satisfy unanimity but not IIA. Since we have spent time commenting
+      on the above sankey plot, and since the example of how instant runoff can fail IIA is very similar to the examples 
+      given for other voting systems, we leave it to you the reader to come up with your own example of why instant
+      runoff fails IIA. As a hint, you only need three candidates and five voters to come up with such a scenario.
+      After thinking about it yourself, you can find one answer <a href="https://en.wikipedia.org/wiki/Independence_of_irrelevant_alternatives#Instant-runoff_voting" target="_blank">here</a>.
+    </p> 
 {% endblock %}

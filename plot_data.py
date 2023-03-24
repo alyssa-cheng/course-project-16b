@@ -1,8 +1,6 @@
 import json
 import plotly
 from plotly import express as px
-import pandas as pd
-import voting_systems
 import plotly.graph_objects as go
 
 def plurality_plot(df):
@@ -49,12 +47,14 @@ def borda_plot(df):
     # converting figure into a json object
     return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-def IRV_sankey(rankings, sourceList, targetList, valuesList):
+def IRV_sankey(rankings, labelList, sourceList, targetList, valuesList):
     """
     creates a sankey plot for the IRV data
     args:
         rankings:   list of candidate rankings in order from first place
                     to last place (produced by voting_systems.IRV())
+        labelList:  list of candidates in order of how they ranked each round
+                    (produced by voting_systems.IRV())
         sourceList: list of candidates from which votes will move
                     (produced by voting_systems.IRV())
         targetList: list of candidates to which votes will move
@@ -70,11 +70,8 @@ def IRV_sankey(rankings, sourceList, targetList, valuesList):
     xList = [round(j/n+0.01,3) for j in range(n) for name in rankings[:n-j]]
     yList = [round(k/n+0.01,3) for j in range(n) for k in range(len(rankings[:n-j]))]
 
-    # Ordered labels
-    labelList = [name.split()[-1] + str(j) for j in range(n) for name in rankings[:n-j]]
-
     # Node and link colors
-    ColorDict = {rankings[j].split()[-1] : f'hsva({200-25*j},{100-12.5*j}%,100%,0.5)' for j in range(n)}
+    ColorDict = {rankings[j].split()[-1] : f'hsva({200+20*j},{100-12.5*j}%,100%,0.5)' for j in range(n)}
     nodeColorList = [ColorDict[name[:-1]] for name in labelList]
     linkColorList = [ColorDict[name[:-1]] for name in sourceList]
 

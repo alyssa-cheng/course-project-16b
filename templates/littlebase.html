@@ -1,7 +1,32 @@
 {% extends 'bigbase.html' %}
 
 {% block text %}
-    <p>Choose your voting system below to see how they affect the Alaska 2020 Democractic Primary Results!</p>
+    <p>
+        After a few minutes you will quickly see that Joe Biden wins the election no matter the voting system chosen except in two obvious cases:
+        <ul>
+            <li>In borda count with custom point values heavily favoring lower ranked candidates;</li>
+            <li>In a dictatorship where the dictator does not rank Biden first.</li>
+        </ul>
+        Now, the fact that almost all of the given voting systems agree may seem surprising after our discussion of how
+        no ranked choice voting system can be fair. But, there is actually a good lesson to be learned here. Let's consider what
+        Kenneth Arrow (the economist who proved the theorem) meant when he said "Most systems are not going to work badly all of the
+        time. All I proved is that all can work badly at times" (from this <a href="https://www.sciencedirect.com/science/article/abs/pii/S0262407908609148?via%3Dihub" target="_blank">article</a>,
+        transcribed <a href="https://rangevoting.org/McKennaText.txt" target="_blank">here</a> as well). Arrow is saying that ranked choice
+        voting systems cannot treat <em>all</em> voters equally fairly <em>all</em> of the time. However, they can treat almost all voters
+        almost fairly for most of the time. In this case, the data shows that clearly the vast majority of Alaskans preferred Biden or Sanders
+        as their favorite candidate, with Biden winning a couple more thousand votes than Sanders. It should not be a surprise then that each
+        (reasonable) voting system declares Biden the winner. Instead, this result stands as a testiment to the agreement of Alaskan democrats
+         in this election.
+    </p>
+    </p>
+        You will also notice that it is quite common for voting systems to satisfy unanimity but not IIA. This is because unanimity is a simpler 
+        notion of fairness than IIA, and so most ranked choice voting systems are specifically designed to always satisfy unanimity. However, Arrow's 
+        impossibility theorem then means that such a system cannot satisfy IIA unless the system is a dictatorship.
+    </p>
+    <p>
+        Enough rambling, go on click the drop down again to test out the other voting systems!
+    </p>
+
 {% endblock %}
 
 {% block links %}
@@ -31,6 +56,9 @@
 {% endblock %}
 
 {% block plot %}
+{% endblock %}
+
+{% block results %}
 {% endblock %}
 
 <br>

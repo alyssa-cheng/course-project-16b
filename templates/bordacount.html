@@ -5,7 +5,24 @@
 {% endblock %}
 
 {% block content %}
-    <p>Suppose there are n choices. Voters rank their choice in order of first, second, third, all the way until n-th place (last). For each first place vote a choice receives, the choice is given n-1 points. For each second place vote a choice receives, the choice is given n-2 points. In general, for each k-th place vote a choice receives, the choice is given n-points. The voting system then ranks the choices in order of most points earned to least points earned. The winner is the choice with the most points.</p>
+    
+    <p>
+      The borda count voting system works as follows. Suppose there are n many candidates. Voters rank
+      their choices in order of first, second, third, all the way until n-th place. For each first 
+      place vote a candidate receives, the candidate is given n points. For each second place vote a choice 
+      receives, the choice is given n-1 points. In general, for each k-th place vote a choice receives, 
+      the choice is given n+1-k points. The voting system then ranks the choices in order of most points 
+      earned to least points earned. The winner is the choice with the most points. 
+    </p>
+
+    <p>
+      Below are the rankings determined by borda count on the Alaska dataset depicted in a chart as well as a bar graph.
+      In this example, n equals 5 (although there are more than 5 candidates, Alaskans were only allowed to rank 5 of them.
+      Candidates that were not ranked by a voter recieved no points from that voter.) We see that Biden wins with Sanders as
+      a close second.
+    </p>
+    
+
     <br>
     <div class="table">
       {{  bordaDF_og | safe }}
@@ -18,7 +35,7 @@
       Plotly.plot('chart',graphs,{});
     </script>
     <br>
-    <p>Assign point values for each rank:</p>
+    <p>Instead of using the standard point assignment for borda count, assign you own point values for each rank below!</p>
     <form method = post> 
         <label for="rank1">Rank 1:</label>
         <input type="number" name = "rank1">
@@ -64,4 +81,39 @@
       Plotly.plot('chart2',graphs,{});
     </script>
     {% endif %}
+{% endblock %}
+
+{% block results %}
+    <br>
+    <hr class="solid">
+    <br>
+    <p>
+      Let's discuss borda count more generally.
+    </p>    
+
+    <p>
+      Using the standard point assignment, it is easy to see that borda count must abide by the fairness principle of unanimity.
+      If every voter prefers candidate A to candidate B, then candidate A will recieve more points then candidate B. So, we know 
+      by Arrow's impossibility theorem that borda count with the standard point assignment cannot satisfy the IIA condition.
+      Indeed, consider the example of five candidates A, B, C, D, E and 5 voters which vote as follows:
+      <ul>
+        <li>three voters rank A first, B second, C third, D fourth, and E fifth;</li>
+        <li>one voter ranks C first, D second, E third, B fourth, and A fifth;</li>
+        <li>one voter ranks E first, C second, D third, B fourth, and A fifth.</li>
+      </ul>
+      Standard borda count will then give C 18 points, A 17 points, B 16 points, D 13 points, and E 11 points. However, if the voters instead 
+      respectively voted as follows
+      <ul>
+        <li>three voters rank A first, B second, C third, D fourth, and E fifth (the same as before);</li>
+        <li>one voter ranks C first, B second, E third, D fourth, and A fifth (switching B and D);</li>
+        <li>one voter ranks E first, C second, B third, D fourth, and A fifth (switching B and D);</li>
+      </ul>
+      then standard borda count gives B 19 points, C 18 points, A 17 points, D 10 points, and E 11 points. So, even though in the two scenarios each
+      voter's preference between A and B did not change, the overall results changed from preferring A over B to preferring B over A. This means
+      standard borda count does not satisfy IIA!
+    </p>
+
+    <p>
+      Try yourself to come up with a custom borda count point assignment that does not even satisfy unanimity!
+    </p>
 {% endblock %}

@@ -1,9 +1,4 @@
 from flask import Flask, render_template, abort, redirect, url_for, json, request, g
-import json
-import plotly
-from plotly import express as px
-import pandas as pd
-import sqlite3
 import voting_systems
 from get_data import get_plurality_df, get_borda_df, get_irv_df, get_toptwo_df
 from plot_data import plurality_plot, borda_plot, IRV_sankey
@@ -132,11 +127,11 @@ def render_irv():
     # if the request method is "GET"
     if request.method == "GET":
         # get instant runoff dataframe and convert to HTML
-        irvDF, rankings, source, target, values = get_irv_df()
+        irvDF, rankings, label, source, target, value = get_irv_df()
         irvHTML = irvDF.to_html(index = False)
         
         # sankey diagram for irv data
-        graphJSON = IRV_sankey(rankings, source, target, values)
+        graphJSON = IRV_sankey(rankings, label, source, target, value)
 
         # render instantrunoff.html template 
         return render_template("instantrunoff.html", graphJSON = graphJSON, irvDF = irvHTML)
@@ -198,7 +193,7 @@ def render_dictatorship():
             
             # rendering the dictatorship.html to show results
             return render_template("dictatorship.html", upperbound = upperbound, chooseDict = True, resultDict = resultDict)
-        # when they click the submit button relating to choosing a voting system 
+        # render the url for the voting system user selected
         elif request.form["submit"] == "Submit":
             url = request.form["system"]
             return redirect(url_for(url))

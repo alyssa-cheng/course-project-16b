@@ -123,10 +123,11 @@ def IRV(db_name):
 
         #variables needed for Sankey diagram
         count = 0
-        source = []
-        target = []
-        values = []
-        talliesOld = []
+        labelList = []      #keeps order of ranking of candidates each round
+        sourceList = []     #keeps track of where votes move from
+        targetList = []     #keeps track of where votes move to
+        valuesList = []     #keeps track of how many votes move
+        talliesOld = []     #keeps track of prior round results
         
         while len(can_win)>1: #iterates rounds of instant runoff
             votes=[]
@@ -179,26 +180,44 @@ def IRV(db_name):
 
             #determining source, target, and value for this round of IRV
             if talliesOld:
-                n = len(talliesNew)
-                source += [talliesOld[j][0].split()[-1]+str(count-1) for j in range(n)]
-                target += [talliesNew[j][0].split()[-1]+str(count) for j in range(n)]
-                values += [talliesOld[j][1] for j in range(n)]
+                tupleLast = talliesOld[-1]
+                addLast = tupleLast[0].split()[-1]+str(count-1)
                 
-                source += [talliesOld[-1][0].split()[-1]+str(count-1) for j in range(n-1)]
-                target += [talliesNew[j][0].split()[-1]+str(count) for j in range(n-1)]
-                values += [talliesNew[j][1]-talliesOld[j][1] for j in range(n-1)]                
+                for tupleOld in talliesOld[:-1]:
+                    add = tupleOld[0].split()[-1]
+                    
+                    labelList += [add+str(count-1)]
+                    
+                    sourceList += [add+str(count-1)]
+                    targetList += [add+str(count)]
+                    valuesList += [tupleOld[1]]
+                    
+                    sourceList += [addLast]
+                    targetList += [add+str(count)]
+                    for tupleNew in talliesNew:
+                        if tupleNew[0] == tupleOld[0]:
+                            valuesList += [tupleNew[1]-tupleOld[1]]
+                
+                labelList += [addLast]                               
             
             #updating to keep track of prior round                 
             talliesOld = talliesNew
             count += 1
         
-        # determining overall rankings as well as source, target, and value lists
-        rankings = (can_win + to_return)
-        source += [talliesOld[0][0].split()[-1]+str(count-1), talliesOld[1][0].split()[-1]+str(count-1)]
-        target += [can_win[0].split()[-1]+str(count), can_win[0].split()[-1]+str(count),]
-        values += [talliesOld[0][1], talliesOld[1][1]] 
+        # determining overall rankings 
+        rankings = can_win + to_return
+
+        # finish constructing label, source, target, and value lists
+        winnerName = can_win[0].split()[-1]+str(count)
+        
+        labelList += [tupleNew[0].split()[-1]+str(count-1) for tupleNew in talliesNew]
+        labelList += [winnerName]
+        
+        sourceList += [talliesOld[0][0].split()[-1]+str(count-1), talliesOld[1][0].split()[-1]+str(count-1)]
+        targetList += [winnerName, winnerName]
+        valuesList += [talliesOld[0][1], talliesOld[1][1]] 
             
-        return rankings, source, target, values
+        return rankings, labelList, sourceList, targetList, valuesList
     
 def TopTwo(db_name):
     '''

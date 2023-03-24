@@ -1,5 +1,3 @@
-import json
-import plotly
 from plotly import express as px
 import pandas as pd
 import voting_systems
@@ -44,11 +42,11 @@ def get_irv_df():
     """
     # getting instant runoff count data using the IRV() function in voting_systems.py
     # data in the form of a list of tuples
-    rankings, source, target, values  = voting_systems.IRV("votes")
+    rankings, label, source, target, value  = voting_systems.IRV("votes")
     irvList = rankings[:5]
     # converting data into pandas dataframe
     irvDF = pd.DataFrame(irvList, columns = ['Rankings'])
-    return irvDF, rankings, source, target, values
+    return irvDF, rankings, label, source, target, value
 
 def get_toptwo_df():
     """

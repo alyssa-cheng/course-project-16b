@@ -5,8 +5,15 @@
 {% endblock %}
 
 {% block content %}
-    <p>Each voter ranks their choices in order of first, second, third, and so on. Yet, the voting system ranks the choices using the vote of one single particular voter. The winner is the first place vote of that particular voter. In other words, there is only one individual that decides the winner of the election and everyone else has no say.</p>
-    <p> Choose an index between 0 and {{upperbound}}. A corresponding Alaskan voter will be deemed dictator and their top preference will be the winner of the election.</p>
+    <p>
+      A dictatorship can be interpreted as a ranked choice voting system as follows. Each voter ranks their
+      choices in order of first, second, third, and so on. Yet, the voting system ranks the choices using the
+      vote of one single particular voter. The winner is the first place vote of that particular voter. In other
+      words, there is only one individual (the dictator) that decides the winner of the election and everyone
+      else has no influence.
+    </p>
+    <p> Choose an index between 0 and {{upperbound}}. A corresponding Alaskan voter will be deemed dictator 
+      and their top preference will be the winner of the election.</p>
     <form method = post>
       <label for="indexDict">Dictator index:</label>
       <input type="number" name = "indexDict">
@@ -17,4 +24,16 @@
     <p>{{ resultDict }}</p>
   {% endif %}
 
+{% endblock %}
+
+{% block results %}
+    <br>
+    <hr class="solid">
+    <br>
+    <p>
+      It is easy to see that a dictatorship satisfies both unanimity and IIA, unlike any other system we've seen so far.
+      Indeed, if all voters prefer candidate A to candidate B, then so does the dictator meaning A will be ranked higher than B 
+      overall. Moreover, if one changes the vote of the dictator without changing the preference between candidates A and B, then
+      overall the preference between A and B wont change (since the overall preference is the same as the dictator's preference).
+    </p>  
 {% endblock %}

@@ -5,8 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <p>Each voter ranks their choices in order of first, second, third, and so on. Then, the voting system ranks the choices in order of how many first place votes they received. The winner is the choice that received the most first place votes.</p>
-    <p>{{to_print}}</p>
+    <p>
+      The plurality voting system ranks candidates in order of how many rank 1 votes they each received. The candidate 
+      that received the most first place votes wins the election.
+    </p>
+
+    <p>
+      Below are the rankings determined by plurality on the Alaska dataset depicted in a chart as well as a bar graph.
+      We see that Biden wins with Sanders as a close second.
+    </p>
+    
     <br>
     {% if pluralityDF %}
     <div class="table">
@@ -23,4 +31,35 @@
     var graphs = {{graphJSON | safe}};
     Plotly.plot('chart',graphs,{});
   </script>
+{% endblock %}
+
+{% block results %}
+    <br>
+    <hr class="solid">
+    <br>
+    <p>
+      Let's discuss plurality more generally.
+    </p>    
+
+    <p>
+      It is easy to see that plurality must abide by the fairness principle of unanimity. Suppose every voter prefers candidate A to 
+      candidate B. Then, candidate B cannot possibly recieve any first place votes and so candidate A must get at least as many first 
+      place votes than candidate B, thus always beating or at least tying candidate B. By Arrow's theorem, we know then that plurality
+      voting cannot satisfy the IIA condition. Indeed, consider the example of three candidates A, B, C, and 100 voters which all vote
+      as follows:
+      <ul>
+        <li>48 voters rank A first, C second, and B third;</li>
+        <li>49 voters rank B first, A second, and C third;</li>
+        <li>3 voters rank C first, A second, and B third.</li>
+      </ul>
+      Plurality voting will then rank the candidate B first, A second, and C third overall. However, if the voters instead respectively 
+      voted as follows
+      <ul>
+        <li>48 voters rank A first, B second, and C third (switching B and C);</li>
+        <li>49 voters rank C first, B second, and A third (moving C to the front and shifting B,A down);</li>
+        <li>3 voters rank A first, B second, and C third (moving C to the end and shifting A,B up);</li>
+      </ul>
+      then plurality voting would rank candidate A first, C second, and B third even though in both scenarios each voter's preference between A and B 
+      does not change. This means plurality voting does not satisfy IIA!
+    </p>
 {% endblock %}
