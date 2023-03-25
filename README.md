@@ -9,7 +9,7 @@ There are three technical components constituting the project:
 - We construct a complex data visualization (namely, a sankey diagram) using plotly to better portray the results of instant runoff on the Alaska data. We also write code which can display the results of other voting systems as bar graphs.
 - We use Flask, HTML, and CSS to implement the front end of the website, ensuring that it is a functional dynamic website.
 
-We explain each component in further detail in this the [blog post](LINK). As a brief summary, this project includes
+We explain each component in further detail in this the [blog post](https://najisarsam.quarto.pub/najis-pic16-blog/posts/Project/). As a brief summary, this project includes
 - the `voting_systems.py` module containing functions for storing and analyzing election data in a SQL database. Implementations of the voting systems plurality, Borda count, instant runoff, top two runoff, and dictatorship are found in this module;
 - the `plot_data.py` and `get_data.py` modules containing functions for creating visualizations of the voting systems results;
 - the `app.py` module containig the functions for rendering the website via Flask;
